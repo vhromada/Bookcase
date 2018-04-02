@@ -24,7 +24,7 @@ class AuthorValidatorImplTest : AbstractValidatorTest<Author, cz.vhromada.book.d
      */
     @Test
     fun validate_Deep_EmptyFirstName() {
-        val author = Author(1, "", AuthorUtils.MIDDLE_NAME, AuthorUtils.LAST_NAME, 0)
+        val author = getValidatingData(1).copy(firstName = "")
 
         val result = getBookcaseValidator().validate(author, ValidationType.DEEP)
 
@@ -41,7 +41,7 @@ class AuthorValidatorImplTest : AbstractValidatorTest<Author, cz.vhromada.book.d
      */
     @Test
     fun validate_Deep_EmptyMiddleName() {
-        val author = Author(1, AuthorUtils.FIRST_NAME, "", AuthorUtils.LAST_NAME, 0)
+        val author = getValidatingData(1).copy(middleName = "")
 
         val result = getBookcaseValidator().validate(author, ValidationType.DEEP)
 
@@ -58,7 +58,7 @@ class AuthorValidatorImplTest : AbstractValidatorTest<Author, cz.vhromada.book.d
      */
     @Test
     fun validate_Deep_EmptyLastName() {
-        val author = Author(1, AuthorUtils.FIRST_NAME, AuthorUtils.MIDDLE_NAME, "", 0)
+        val author = getValidatingData(1).copy(lastName = "")
 
         val result = getBookcaseValidator().validate(author, ValidationType.DEEP)
 

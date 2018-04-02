@@ -1,6 +1,7 @@
 package cz.vhromada.book.domain
 
 import cz.vhromada.book.common.Movable
+import java.util.Objects
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -43,4 +44,22 @@ data class Author(
 
     override var position: Int
 
-) : Movable
+) : Movable {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return if (other !is Author || id == null) {
+            false
+        } else {
+            id == other.id
+        }
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
+
+}

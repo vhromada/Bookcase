@@ -28,17 +28,17 @@ abstract class AbstractRepositoryStub<T : Movable> : RepositoryStub<T> {
     /**
      * Data for [JpaRepository.save]
      */
-    private var saveData = ArrayList<T>()
+    private var saveData = mutableListOf<T>()
 
     /**
      * Data for [JpaRepository.saveAll]
      */
-    private var saveAllData = ArrayList<Iterable<T>>()
+    private var saveAllData = mutableListOf<Iterable<T>>()
 
     /**
      * Data for [JpaRepository.delete]
      */
-    private var deleteData = ArrayList<T>()
+    private var deleteData = mutableListOf<T>()
 
     /**
      * Data for [JpaRepository.deleteAll]

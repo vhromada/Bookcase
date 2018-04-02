@@ -24,7 +24,7 @@ class CategoryValidatorImplTest : AbstractValidatorTest<Category, cz.vhromada.bo
      */
     @Test
     fun validate_Deep_EmptyName() {
-        val category = Category(1, "", 0)
+        val category = getValidatingData(1).copy(name = "")
 
         val result = getBookcaseValidator().validate(category, ValidationType.DEEP)
 

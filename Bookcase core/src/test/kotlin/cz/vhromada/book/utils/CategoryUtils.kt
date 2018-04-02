@@ -18,11 +18,6 @@ object CategoryUtils {
     const val CATEGORIES_COUNT = 3
 
     /**
-     * Name
-     */
-    private const val NAME = "Name"
-
-    /**
      * Returns category.
      *
      * @param id ID
@@ -34,7 +29,7 @@ object CategoryUtils {
         } else {
             id - 1
         }
-        return cz.vhromada.book.entity.Category(id, NAME, position)
+        return cz.vhromada.book.entity.Category(id, "Name", position)
     }
 
     /**
@@ -60,7 +55,7 @@ object CategoryUtils {
      * @return category
      */
     fun newCategoryDomain(id: Int?, position: Int): Category {
-        return Category(id, NAME, position)
+        return Category(id, "Name", position)
     }
 
     /**
@@ -80,6 +75,16 @@ object CategoryUtils {
      */
     fun getCategory(index: Int): Category {
         return Category(index, "Category $index Name", index - 1)
+    }
+
+    /**
+     * Returns category for index.
+     *
+     * @param index index
+     * @return category for index
+     */
+    fun getCategoryEntity(index: Int): cz.vhromada.book.entity.Category {
+        return cz.vhromada.book.entity.Category(index, "Category $index Name", index - 1)
     }
 
     /**
@@ -128,6 +133,43 @@ object CategoryUtils {
      * @param actual   actual category
      */
     fun assertCategoryDeepEquals(expected: Category?, actual: Category?) {
+        assertSoftly { softly ->
+            softly.assertThat(expected).isNotNull
+            softly.assertThat(actual).isNotNull
+        }
+
+        assertSoftly { softly ->
+            softly.assertThat(actual!!.id).isEqualTo(expected!!.id)
+            softly.assertThat(actual.name).isEqualTo(expected.name)
+            softly.assertThat(actual.position).isEqualTo(expected.position)
+        }
+    }
+
+    /**
+     * Asserts categories deep equals.
+     *
+     * @param expected expected categories
+     * @param actual   actual categories
+     */
+    fun assertCategoryListDeepEquals(expected: List<Category>?, actual: List<cz.vhromada.book.entity.Category>?) {
+        assertSoftly { softly ->
+            softly.assertThat(expected).isNotNull
+            softly.assertThat(actual).isNotNull
+        }
+
+        assertThat(expected!!.size).isEqualTo(actual!!.size)
+        for (i in expected.indices) {
+            assertCategoryDeepEquals(expected[i], actual[i])
+        }
+    }
+
+    /**
+     * Asserts category deep equals.
+     *
+     * @param expected expected category
+     * @param actual   actual category
+     */
+    fun assertCategoryDeepEquals(expected: Category?, actual: cz.vhromada.book.entity.Category?) {
         assertSoftly { softly ->
             softly.assertThat(expected).isNotNull
             softly.assertThat(actual).isNotNull

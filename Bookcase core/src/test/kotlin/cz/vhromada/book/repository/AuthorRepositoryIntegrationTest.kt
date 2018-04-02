@@ -3,7 +3,7 @@ package cz.vhromada.book.repository
 import cz.vhromada.book.CoreTestConfiguration
 import cz.vhromada.book.utils.AuthorUtils
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.SoftAssertions
+import org.assertj.core.api.SoftAssertions.assertSoftly
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -44,7 +44,7 @@ class AuthorRepositoryIntegrationTest {
      */
     @BeforeEach
     fun setUp() {
-        SoftAssertions.assertSoftly { softly ->
+        assertSoftly { softly ->
             softly.assertThat(authorRepository).isNotNull
             softly.assertThat(entityManager).isNotNull
         }

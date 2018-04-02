@@ -19,7 +19,7 @@ class CategoryValidatorImpl(categoryService: BookcaseService<cz.vhromada.book.do
      * Validates category deeply.
      *
      * Validation errors:
-     *  * Name is empty string
+     * * Name is empty string
      *
      * @param data   validating category
      * @param result result with validation errors

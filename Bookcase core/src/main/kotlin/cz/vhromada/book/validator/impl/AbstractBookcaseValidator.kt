@@ -63,7 +63,7 @@ abstract class AbstractBookcaseValidator<in T : Movable, U : Movable>(
      * Validates new data.
      *
      * Validation errors:
-     *  * ID isn't null
+     * * ID isn't null
      *
      * @param data   validating data
      * @param result result with validation errors
@@ -78,8 +78,8 @@ abstract class AbstractBookcaseValidator<in T : Movable, U : Movable>(
      * Validates existing data.
      *
      * Validation errors:
-     *  * ID is null
-     *  * Data doesn't exist in data storage
+     * * ID is null
+     * * Data doesn't exist in data storage
      *
      * @param data   validating data
      * @param result result with validation errors
@@ -96,7 +96,7 @@ abstract class AbstractBookcaseValidator<in T : Movable, U : Movable>(
      * Validates moving data.
      *
      * Validation errors:
-     *  * Not movable data
+     * * Not movable data
      *
      * @param data   validating data
      * @param result result with validation errors

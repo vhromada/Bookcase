@@ -18,21 +18,6 @@ object AuthorUtils {
     const val AUTHORS_COUNT = 3
 
     /**
-     * First name
-     */
-    const val FIRST_NAME = "FirstName"
-
-    /**
-     * Middle name
-     */
-    const val MIDDLE_NAME = "MiddleName"
-
-    /**
-     * Last name
-     */
-    const val LAST_NAME = "LastName"
-
-    /**
      * Returns author.
      *
      * @param id ID
@@ -44,7 +29,7 @@ object AuthorUtils {
         } else {
             id - 1
         }
-        return cz.vhromada.book.entity.Author(id, FIRST_NAME, MIDDLE_NAME, LAST_NAME, position)
+        return cz.vhromada.book.entity.Author(id, "FirstName", "MiddleName", "LastName", position)
     }
 
     /**
@@ -70,7 +55,7 @@ object AuthorUtils {
      * @return author
      */
     fun newAuthorDomain(id: Int?, position: Int): Author {
-        return Author(id, FIRST_NAME, MIDDLE_NAME, LAST_NAME, position)
+        return Author(id, "FirstName", "MiddleName", "LastName", position)
     }
 
     /**
@@ -95,6 +80,21 @@ object AuthorUtils {
             null
         }
         return Author(index, "Author $index First Name", middleName, "Author $index Last Name", index - 1)
+    }
+
+    /**
+     * Returns author for index.
+     *
+     * @param index index
+     * @return author for index
+     */
+    fun getAuthorEntity(index: Int): cz.vhromada.book.entity.Author {
+        val middleName = if (index == 2) {
+            "Author $index Middle Name"
+        } else {
+            null
+        }
+        return cz.vhromada.book.entity.Author(index, "Author $index First Name", middleName, "Author $index Last Name", index - 1)
     }
 
     /**
@@ -143,6 +143,45 @@ object AuthorUtils {
      * @param actual   actual author
      */
     fun assertAuthorDeepEquals(expected: Author?, actual: Author?) {
+        assertSoftly { softly ->
+            softly.assertThat(expected).isNotNull
+            softly.assertThat(actual).isNotNull
+        }
+
+        assertSoftly { softly ->
+            softly.assertThat(actual!!.id).isEqualTo(expected!!.id)
+            softly.assertThat(actual.firstName).isEqualTo(expected.firstName)
+            softly.assertThat(actual.middleName).isEqualTo(expected.middleName)
+            softly.assertThat(actual.lastName).isEqualTo(expected.lastName)
+            softly.assertThat(actual.position).isEqualTo(expected.position)
+        }
+    }
+
+    /**
+     * Asserts authors deep equals.
+     *
+     * @param expected expected authors
+     * @param actual   actual authors
+     */
+    fun assertAuthorListDeepEquals(expected: List<Author>?, actual: List<cz.vhromada.book.entity.Author>?) {
+        assertSoftly { softly ->
+            softly.assertThat(expected).isNotNull
+            softly.assertThat(actual).isNotNull
+        }
+
+        assertThat(expected!!.size).isEqualTo(actual!!.size)
+        for (i in expected.indices) {
+            assertAuthorDeepEquals(expected[i], actual[i])
+        }
+    }
+
+    /**
+     * Asserts author deep equals.
+     *
+     * @param expected expected author
+     * @param actual   actual author
+     */
+    fun assertAuthorDeepEquals(expected: Author?, actual: cz.vhromada.book.entity.Author?) {
         assertSoftly { softly ->
             softly.assertThat(expected).isNotNull
             softly.assertThat(actual).isNotNull

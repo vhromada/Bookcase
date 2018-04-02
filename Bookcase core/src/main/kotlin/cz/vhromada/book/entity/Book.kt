@@ -2,6 +2,7 @@ package cz.vhromada.book.entity
 
 import cz.vhromada.book.common.Language
 import cz.vhromada.book.common.Movable
+import java.util.Objects
 
 /**
  * A class represents book.
@@ -69,4 +70,23 @@ data class Book(
      */
     val categories: List<Category>
 
-) : Movable
+) : Movable {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return if (other !is Book || id == null) {
+            false
+        } else {
+            id == other.id
+        }
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
+
+}
+

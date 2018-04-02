@@ -15,7 +15,7 @@ abstract class AbstractValidatorStub<in T : Movable> : ValidatorStub<T> {
     /**
      * Data
      */
-    private val data = ArrayList<T>()
+    private val data = mutableListOf<T>()
 
     /**
      * Count of interactions

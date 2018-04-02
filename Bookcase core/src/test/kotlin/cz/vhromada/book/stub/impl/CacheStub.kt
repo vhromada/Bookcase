@@ -19,12 +19,12 @@ class CacheStub : Cache, BookcaseStub {
     /**
      * Data for [Cache.get]
      */
-    private var getData = ArrayList<Any>()
+    private var getData = mutableListOf<Any>()
 
     /**
      * Data for [Cache.put]
      */
-    private var putData = HashMap<Any, Any?>()
+    private var putData = mutableMapOf<Any, Any?>()
 
     /**
      * Data for [Cache.clear]

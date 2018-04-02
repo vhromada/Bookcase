@@ -39,12 +39,20 @@ class BookValidatorImpl(
      * Validates book deeply.
      *
      * Validation errors:
-     *  * Czech name is empty string
-     *  * Original name is empty string
-     *  * ISBN is empty string
-     *  * Issue year isn't between 1940 and current year
-     *  * Description is empty string
-     *  * Note is empty string
+     * * Czech name is empty string
+     * * Original name is empty string
+     * * ISBN is empty string
+     * * Issue year isn't between 1940 and current year
+     * * Description is empty string
+     * * Note is empty string
+     * * Author ID is null
+     * * Author first name is empty string
+     * * Author middle name is empty string
+     * * Author last name is empty string
+     * * Author doesn't exist
+     * * Category ID is null
+     * * Category name is empty string
+     * * Category doesn't exist
      *
      * @param data   validating book
      * @param result result with validation errors
@@ -76,11 +84,11 @@ class BookValidatorImpl(
      * Validates authors.
      *
      * Validation errors:
-     *  * Author ID is null
-     *  * Author first name is empty string
-     *  * Author middle name is empty string
-     *  * Author last name is empty string
-     *  * Author doesn't exist
+     * * Author ID is null
+     * * Author first name is empty string
+     * * Author middle name is empty string
+     * * Author last name is empty string
+     * * Author doesn't exist
      *
      * @param data   validating book
      * @param result result with validation errors
@@ -96,9 +104,9 @@ class BookValidatorImpl(
      * Validates categories.
      *
      * Validation errors:
-     *  * Category ID is null
-     *  * Category name is empty string
-     *  * Category doesn't exist
+     * * Category ID is null
+     * * Category name is empty string
+     * * Category doesn't exist
      *
      * @param data   validating book
      * @param result result with validation errors

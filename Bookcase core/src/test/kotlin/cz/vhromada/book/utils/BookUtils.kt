@@ -19,46 +19,6 @@ object BookUtils {
     const val BOOKS_COUNT = 3
 
     /**
-     * Czech name
-     */
-    const val CZECH_NAME = "CzechName"
-
-    /**
-     * Original name
-     */
-    const val ORIGINAL_NAME = "OriginalName"
-
-    /**
-     * ISBN
-     */
-    const val ISBN = "ISBN"
-
-    /**
-     * Issue year
-     */
-    const val ISSUE_YEAR = 2000
-
-    /**
-     * Description
-     */
-    const val DESCRIPTION = "Description"
-
-    /**
-     * Electronic
-     */
-    const val ELECTRONIC = true
-
-    /**
-     * Paper
-     */
-    const val PAPER = false
-
-    /**
-     * Note
-     */
-    const val NOTE = "Note"
-
-    /**
      * Bad minimal issue year
      */
     const val BAD_MIN_ISSUE_YEAR = Constants.MIN_YEAR - 1
@@ -80,7 +40,7 @@ object BookUtils {
         } else {
             id - 1
         }
-        return cz.vhromada.book.entity.Book(id, CZECH_NAME, ORIGINAL_NAME, listOf(Language.CZ), ISBN, ISSUE_YEAR, DESCRIPTION, ELECTRONIC, PAPER, NOTE, position, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(1)))
+        return cz.vhromada.book.entity.Book(id, "CzechName", "OriginalName", listOf(Language.CZ), "ISBN", 2000, "Description", true, false, "Note", position, listOf(AuthorUtils.getAuthorEntity(1)), listOf(CategoryUtils.getCategoryEntity(1)))
     }
 
     /**
@@ -106,7 +66,7 @@ object BookUtils {
      * @return book
      */
     fun newBookDomain(id: Int?, position: Int): Book {
-        return Book(id, CZECH_NAME, ORIGINAL_NAME, listOf(Language.CZ), ISBN, ISSUE_YEAR, DESCRIPTION, ELECTRONIC, PAPER, NOTE, position, listOf(AuthorUtils.getAuthor(1)), listOf(CategoryUtils.getCategory(1)))
+        return Book(id, "CzechName", "OriginalName", listOf(Language.CZ), "ISBN", 2000, "Description", true, false, "Note", position, listOf(AuthorUtils.getAuthor(1)), listOf(CategoryUtils.getCategory(1)))
     }
 
     /**
@@ -152,7 +112,7 @@ object BookUtils {
             categories.add(CategoryUtils.getCategory(2))
         }
 
-        return Book(index, "Book $index Czech Name", "Book $index Original Name", languages, isbn, ISSUE_YEAR + index, "Book $index Description", index != 3, index != 2, note, index - 1, books, categories)
+        return Book(index, "Book $index Czech Name", "Book $index Original Name", languages, isbn, 2000 + index, "Book $index Description", index != 3, index != 2, note, index - 1, books, categories)
     }
 
     /**
@@ -223,7 +183,55 @@ object BookUtils {
             AuthorUtils.assertAuthorsDeepEquals(expected.authors, actual.authors)
             CategoryUtils.assertCategoriesDeepEquals(expected.categories, actual.categories)
         }
+    }
 
+    /**
+     * Asserts book deep equals.
+     *
+     * @param expected expected book
+     * @param actual   actual book
+     */
+    fun assertBookListDeepEquals(expected: List<Book>?, actual: List<cz.vhromada.book.entity.Book>?) {
+        assertSoftly { softly ->
+            softly.assertThat(expected).isNotNull
+            softly.assertThat(actual).isNotNull
+        }
+
+        assertThat(expected!!.size).isEqualTo(actual!!.size)
+        for (i in expected.indices) {
+            assertBookDeepEquals(expected[i], actual[i])
+        }
+    }
+
+    /**
+     * Asserts book deep equals.
+     *
+     * @param expected expected book
+     * @param actual   actual book
+     */
+    fun assertBookDeepEquals(expected: Book?, actual: cz.vhromada.book.entity.Book?) {
+        assertSoftly { softly ->
+            softly.assertThat(expected).isNotNull
+            softly.assertThat(actual).isNotNull
+        }
+
+        assertSoftly { softly ->
+            softly.assertThat(actual!!.id).isEqualTo(expected!!.id)
+            softly.assertThat(actual.czechName).isEqualTo(expected.czechName)
+            softly.assertThat(actual.originalName).isEqualTo(expected.originalName)
+            softly.assertThat(actual.languages)
+                .hasSameSizeAs(expected.languages)
+                .hasSameElementsAs(expected.languages)
+            softly.assertThat(actual.isbn).isEqualTo(expected.isbn)
+            softly.assertThat(actual.issueYear).isEqualTo(expected.issueYear)
+            softly.assertThat(actual.description).isEqualTo(expected.description)
+            softly.assertThat(actual.electronic).isEqualTo(expected.electronic)
+            softly.assertThat(actual.paper).isEqualTo(expected.paper)
+            softly.assertThat(actual.note).isEqualTo(expected.note)
+            softly.assertThat(actual.position).isEqualTo(expected.position)
+            AuthorUtils.assertAuthorListDeepEquals(expected.authors, actual.authors)
+            CategoryUtils.assertCategoryListDeepEquals(expected.categories, actual.categories)
+        }
     }
 
 }

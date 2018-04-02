@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 class AuthorServiceImpl(authorRepository: AuthorRepository, @Value("#{cacheManager.getCache('bookcaseCache')}") cache: Cache) : AbstractBookcaseService<Author>(authorRepository, cache, "authors") {
 
     override fun getCopy(data: Author): Author {
-        return Author(null, data.firstName, data.middleName, data.lastName, data.position)
+        return data.copy(id = null)
     }
 
 }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 class CategoryServiceImpl(categoryRepository: CategoryRepository, @Value("#{cacheManager.getCache('bookcaseCache')}") cache: Cache) : AbstractBookcaseService<Category>(categoryRepository, cache, "categories") {
 
     override fun getCopy(data: Category): Category {
-        return Category(null, data.name, data.position)
+        return data.copy(id = null)
     }
 
 }

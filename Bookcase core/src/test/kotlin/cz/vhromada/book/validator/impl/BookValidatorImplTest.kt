@@ -1,6 +1,5 @@
 package cz.vhromada.book.validator.impl
 
-import cz.vhromada.book.common.Language
 import cz.vhromada.book.entity.Author
 import cz.vhromada.book.entity.Book
 import cz.vhromada.book.entity.Category
@@ -53,7 +52,7 @@ class BookValidatorImplTest : AbstractValidatorTest<Book, cz.vhromada.book.domai
      */
     @Test
     fun validate_Deep_EmptyCzechName() {
-        val book = Book(1, "", BookUtils.ORIGINAL_NAME, listOf(Language.CZ), BookUtils.ISBN, BookUtils.ISSUE_YEAR, BookUtils.DESCRIPTION, BookUtils.ELECTRONIC, BookUtils.PAPER, BookUtils.NOTE, 0, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(1)))
+        val book = getValidatingData(1).copy(czechName = "")
 
         val result = getBookcaseValidator().validate(book, ValidationType.DEEP)
 
@@ -78,7 +77,7 @@ class BookValidatorImplTest : AbstractValidatorTest<Book, cz.vhromada.book.domai
      */
     @Test
     fun validate_Deep_EmptyOriginalName() {
-        val book = Book(1, BookUtils.CZECH_NAME, "", listOf(Language.CZ), BookUtils.ISBN, BookUtils.ISSUE_YEAR, BookUtils.DESCRIPTION, BookUtils.ELECTRONIC, BookUtils.PAPER, BookUtils.NOTE, 0, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(1)))
+        val book = getValidatingData(1).copy(originalName = "")
 
         val result = getBookcaseValidator().validate(book, ValidationType.DEEP)
 
@@ -103,7 +102,7 @@ class BookValidatorImplTest : AbstractValidatorTest<Book, cz.vhromada.book.domai
      */
     @Test
     fun validate_Deep_EmptyISBN() {
-        val book = Book(1, BookUtils.CZECH_NAME, BookUtils.ORIGINAL_NAME, listOf(Language.CZ), "", BookUtils.ISSUE_YEAR, BookUtils.DESCRIPTION, BookUtils.ELECTRONIC, BookUtils.PAPER, BookUtils.NOTE, 0, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(1)))
+        val book = getValidatingData(1).copy(isbn = "")
 
         val result = getBookcaseValidator().validate(book, ValidationType.DEEP)
 
@@ -124,11 +123,11 @@ class BookValidatorImplTest : AbstractValidatorTest<Book, cz.vhromada.book.domai
     }
 
     /**
-     * Test method for [BookValidatorImpl.validate]} with [ValidationType.DEEP] with data with bad minimum issue year.
+     * Test method for [BookValidatorImpl.validate] with [ValidationType.DEEP] with data with bad minimum issue year.
      */
     @Test
     fun validate_Deep_BadMinimumIssueYear() {
-        val book = Book(1, BookUtils.CZECH_NAME, BookUtils.ORIGINAL_NAME, listOf(Language.CZ), BookUtils.ISBN, BookUtils.BAD_MIN_ISSUE_YEAR, BookUtils.DESCRIPTION, BookUtils.ELECTRONIC, BookUtils.PAPER, BookUtils.NOTE, 0, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(1)))
+        val book = getValidatingData(1).copy(issueYear = BookUtils.BAD_MIN_ISSUE_YEAR)
 
         val result = getBookcaseValidator().validate(book, ValidationType.DEEP)
 
@@ -149,11 +148,11 @@ class BookValidatorImplTest : AbstractValidatorTest<Book, cz.vhromada.book.domai
     }
 
     /**
-     * Test method for [BookValidatorImpl.validate]} with [ValidationType.DEEP] with data with bad maximum issue year.
+     * Test method for [BookValidatorImpl.validate] with [ValidationType.DEEP] with data with bad maximum issue year.
      */
     @Test
     fun validate_Deep_BadMaximumIssueYear() {
-        val book = Book(1, BookUtils.CZECH_NAME, BookUtils.ORIGINAL_NAME, listOf(Language.CZ), BookUtils.ISBN, BookUtils.BAD_MAX_ISSUE_YEAR, BookUtils.DESCRIPTION, BookUtils.ELECTRONIC, BookUtils.PAPER, BookUtils.NOTE, 0, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(1)))
+        val book = getValidatingData(1).copy(issueYear = BookUtils.BAD_MAX_ISSUE_YEAR)
 
         val result = getBookcaseValidator().validate(book, ValidationType.DEEP)
 
@@ -178,7 +177,7 @@ class BookValidatorImplTest : AbstractValidatorTest<Book, cz.vhromada.book.domai
      */
     @Test
     fun validate_Deep_EmptyDescription() {
-        val book = Book(1, BookUtils.CZECH_NAME, BookUtils.ORIGINAL_NAME, listOf(Language.CZ), BookUtils.ISBN, BookUtils.ISSUE_YEAR, "", BookUtils.ELECTRONIC, BookUtils.PAPER, BookUtils.NOTE, 0, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(1)))
+        val book = getValidatingData(1).copy(description = "")
 
         val result = getBookcaseValidator().validate(book, ValidationType.DEEP)
 
@@ -203,7 +202,7 @@ class BookValidatorImplTest : AbstractValidatorTest<Book, cz.vhromada.book.domai
      */
     @Test
     fun validate_Deep_EmptyNote() {
-        val book = Book(1, BookUtils.CZECH_NAME, BookUtils.ORIGINAL_NAME, listOf(Language.CZ), BookUtils.ISBN, BookUtils.ISSUE_YEAR, BookUtils.DESCRIPTION, BookUtils.ELECTRONIC, BookUtils.PAPER, "", 0, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(1)))
+        val book = getValidatingData(1).copy(note = "")
 
         val result = getBookcaseValidator().validate(book, ValidationType.DEEP)
 
@@ -228,7 +227,7 @@ class BookValidatorImplTest : AbstractValidatorTest<Book, cz.vhromada.book.domai
      */
     @Test
     fun validate_Deep_BadAuthor() {
-        val book = Book(1, BookUtils.CZECH_NAME, BookUtils.ORIGINAL_NAME, listOf(Language.CZ), BookUtils.ISBN, BookUtils.ISSUE_YEAR, BookUtils.DESCRIPTION, BookUtils.ELECTRONIC, BookUtils.PAPER, BookUtils.NOTE, 0, listOf(AuthorUtils.newAuthor(Int.MAX_VALUE)), listOf(CategoryUtils.newCategory(1)))
+        val book = getValidatingData(1).copy(authors = listOf(AuthorUtils.newAuthor(Int.MAX_VALUE)))
         authorValidator = ErrorValidatorStub("AUTHOR", errorEventMessage)
 
         val result = getBookcaseValidator().validate(book, ValidationType.DEEP)
@@ -254,7 +253,7 @@ class BookValidatorImplTest : AbstractValidatorTest<Book, cz.vhromada.book.domai
      */
     @Test
     fun validate_Deep_BadCategory() {
-        val book = Book(1, BookUtils.CZECH_NAME, BookUtils.ORIGINAL_NAME, listOf(Language.CZ), BookUtils.ISBN, BookUtils.ISSUE_YEAR, BookUtils.DESCRIPTION, BookUtils.ELECTRONIC, BookUtils.PAPER, BookUtils.NOTE, 0, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(Int.MAX_VALUE)))
+        val book = getValidatingData(1).copy(categories = listOf(CategoryUtils.newCategory(Int.MAX_VALUE)))
         categoryValidator = ErrorValidatorStub("CATEGORY", errorEventMessage)
 
         val result = getBookcaseValidator().validate(book, ValidationType.DEEP)

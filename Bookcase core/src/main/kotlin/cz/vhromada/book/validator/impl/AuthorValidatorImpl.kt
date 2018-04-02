@@ -19,9 +19,9 @@ class AuthorValidatorImpl(authorService: BookcaseService<cz.vhromada.book.domain
      * Validates author deeply.
      *
      * Validation errors:
-     *  * First name is empty string
-     *  * Middle name is empty string
-     *  * Last name is empty string
+     * * First name is empty string
+     * * Middle name is empty string
+     * * Last name is empty string
      *
      * @param data   validating author
      * @param result result with validation errors

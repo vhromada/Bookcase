@@ -4,6 +4,7 @@ import cz.vhromada.book.common.Language
 import cz.vhromada.book.common.Movable
 import org.hibernate.annotations.Fetch
 import org.hibernate.annotations.FetchMode
+import java.util.Objects
 import javax.persistence.CollectionTable
 import javax.persistence.Column
 import javax.persistence.ElementCollection
@@ -108,4 +109,23 @@ data class Book(
     @Fetch(FetchMode.SELECT)
     val categories: List<Category>
 
-) : Movable
+) : Movable {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return if (other !is Book || id == null) {
+            false
+        } else {
+            id == other.id
+        }
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
+
+}
+

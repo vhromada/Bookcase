@@ -23,7 +23,7 @@ class ServiceStubImpl<T : Movable> : ServiceStub<T> {
     /**
      * Data for [BookcaseService.get]
      */
-    private val getData = ArrayList<Int>()
+    private val getData = mutableListOf<Int>()
 
     /**
      * Count of interactions
