@@ -3,10 +3,9 @@ package cz.vhromada.book.service.impl
 import cz.vhromada.book.domain.Author
 import cz.vhromada.book.repository.AuthorRepository
 import cz.vhromada.book.service.BookcaseService
+import cz.vhromada.book.stub.RepositoryStub
+import cz.vhromada.book.stub.impl.repository.AuthorRepositoryStub
 import cz.vhromada.book.utils.AuthorUtils
-import org.assertj.core.api.Assertions
-import org.mockito.Mock
-import org.springframework.data.jpa.repository.JpaRepository
 
 /**
  * A class represents test for class [AuthorServiceImpl].
@@ -15,24 +14,21 @@ import org.springframework.data.jpa.repository.JpaRepository
  */
 class AuthorServiceImplTest : AbstractServiceTest<Author>() {
 
-    override val cacheKey: String = "authors"
+    override val cacheKey = "authors"
 
-    override val itemClass: Class<Author> = Author::class.java
+    override val itemClass = Author::class.java
 
     /**
      * Instance of [AuthorRepository]
      */
-    @Mock
-    private val authorRepository: AuthorRepository? = null
+    private val authorRepository = AuthorRepositoryStub()
 
-    override fun getRepository(): JpaRepository<Author, Int> {
-        Assertions.assertThat(authorRepository).isNotNull
-
-        return authorRepository!!
+    override fun getRepository(): RepositoryStub<Author> {
+        return authorRepository
     }
 
     override fun getBookcaseService(): BookcaseService<Author> {
-        return AuthorServiceImpl(authorRepository!!, cache!!)
+        return AuthorServiceImpl(authorRepository, cache)
     }
 
     override fun getItem1(): Author {

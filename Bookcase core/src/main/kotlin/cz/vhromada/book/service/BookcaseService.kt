@@ -5,7 +5,6 @@ import cz.vhromada.book.common.Movable
 /**
  * An interface represents service for bookcase.
  *
- * @param <T> type of data
  * @author Vladimir Hromada
  */
 interface BookcaseService<T : Movable> {

@@ -32,6 +32,10 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
         <dependency>
+            <groupId>cz.vhromada.validation</groupId>
+            <artifactId>result</artifactId>
+        </dependency>
+        <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
         </dependency>
@@ -41,9 +45,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cz.vhromada.test</groupId>
-            <artifactId>mockito-jupiter</artifactId>
-            <version>1.0.1</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

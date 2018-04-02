@@ -73,7 +73,7 @@ class BookRepositoryIntegrationTest {
             BookUtils.assertBookDeepEquals(BookUtils.getBook(i), book)
         }
 
-        assertThat(bookRepository!!.findById(Integer.MAX_VALUE).isPresent).isFalse()
+        assertThat(bookRepository!!.findById(Int.MAX_VALUE).isPresent).isFalse()
 
         assertThat(BookUtils.getBooksCount(entityManager!!)).isEqualTo(BookUtils.BOOKS_COUNT)
     }

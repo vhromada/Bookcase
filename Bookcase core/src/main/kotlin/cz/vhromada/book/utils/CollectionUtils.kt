@@ -13,7 +13,6 @@ object CollectionUtils {
      * Returns sorted data.
      *
      * @param data data for sorting
-     * @param <T>  type of data
      * @return sorted data
      */
     fun <T : Movable> getSortedData(data: List<T>): MutableList<T> {

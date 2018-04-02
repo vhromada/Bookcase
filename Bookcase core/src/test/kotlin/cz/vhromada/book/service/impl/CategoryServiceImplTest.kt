@@ -3,10 +3,9 @@ package cz.vhromada.book.service.impl
 import cz.vhromada.book.domain.Category
 import cz.vhromada.book.repository.CategoryRepository
 import cz.vhromada.book.service.BookcaseService
+import cz.vhromada.book.stub.RepositoryStub
+import cz.vhromada.book.stub.impl.repository.CategoryRepositoryStub
 import cz.vhromada.book.utils.CategoryUtils
-import org.assertj.core.api.Assertions
-import org.mockito.Mock
-import org.springframework.data.jpa.repository.JpaRepository
 
 /**
  * A class represents test for class [CategoryServiceImpl].
@@ -15,24 +14,21 @@ import org.springframework.data.jpa.repository.JpaRepository
  */
 class CategoryServiceImplTest : AbstractServiceTest<Category>() {
 
-    override val cacheKey: String = "categories"
+    override val cacheKey = "categories"
 
-    override val itemClass: Class<Category> = Category::class.java
+    override val itemClass = Category::class.java
 
     /**
      * Instance of [CategoryRepository]
      */
-    @Mock
-    private val categoryRepository: CategoryRepository? = null
+    private val categoryRepository = CategoryRepositoryStub()
 
-    override fun getRepository(): JpaRepository<Category, Int> {
-        Assertions.assertThat(categoryRepository).isNotNull
-
-        return categoryRepository!!
+    override fun getRepository(): RepositoryStub<Category> {
+        return categoryRepository
     }
 
     override fun getBookcaseService(): BookcaseService<Category> {
-        return CategoryServiceImpl(categoryRepository!!, cache!!)
+        return CategoryServiceImpl(categoryRepository, cache)
     }
 
     override fun getItem1(): Category {

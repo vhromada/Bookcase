@@ -19,6 +19,71 @@ object BookUtils {
     const val BOOKS_COUNT = 3
 
     /**
+     * Czech name
+     */
+    const val CZECH_NAME = "CzechName"
+
+    /**
+     * Original name
+     */
+    const val ORIGINAL_NAME = "OriginalName"
+
+    /**
+     * ISBN
+     */
+    const val ISBN = "ISBN"
+
+    /**
+     * Issue year
+     */
+    const val ISSUE_YEAR = 2000
+
+    /**
+     * Description
+     */
+    const val DESCRIPTION = "Description"
+
+    /**
+     * Electronic
+     */
+    const val ELECTRONIC = true
+
+    /**
+     * Paper
+     */
+    const val PAPER = false
+
+    /**
+     * Note
+     */
+    const val NOTE = "Note"
+
+    /**
+     * Bad minimal issue year
+     */
+    const val BAD_MIN_ISSUE_YEAR = Constants.MIN_YEAR - 1
+
+    /**
+     * Bad maximal issue year
+     */
+    val BAD_MAX_ISSUE_YEAR = Constants.CURRENT_YEAR + 1
+
+    /**
+     * Returns book.
+     *
+     * @param id ID
+     * @return book
+     */
+    fun newBook(id: Int?): cz.vhromada.book.entity.Book {
+        val position = if (id == null) {
+            0
+        } else {
+            id - 1
+        }
+        return cz.vhromada.book.entity.Book(id, CZECH_NAME, ORIGINAL_NAME, listOf(Language.CZ), ISBN, ISSUE_YEAR, DESCRIPTION, ELECTRONIC, PAPER, NOTE, position, listOf(AuthorUtils.newAuthor(1)), listOf(CategoryUtils.newCategory(1)))
+    }
+
+    /**
      * Returns book.
      *
      * @param id ID
@@ -41,7 +106,7 @@ object BookUtils {
      * @return book
      */
     fun newBookDomain(id: Int?, position: Int): Book {
-        return Book(id, "CzechName", "OriginalName", listOf(Language.CZ), "ISBN", 2000, "Description", true, false, "Note", position, listOf(AuthorUtils.getAuthor(1)), listOf(CategoryUtils.getCategory(1)))
+        return Book(id, CZECH_NAME, ORIGINAL_NAME, listOf(Language.CZ), ISBN, ISSUE_YEAR, DESCRIPTION, ELECTRONIC, PAPER, NOTE, position, listOf(AuthorUtils.getAuthor(1)), listOf(CategoryUtils.getCategory(1)))
     }
 
     /**
@@ -87,7 +152,7 @@ object BookUtils {
             categories.add(CategoryUtils.getCategory(2))
         }
 
-        return Book(index, "Book $index Czech Name", "Book $index Original Name", languages, isbn, 2000 + index, "Book $index Description", index != 3, index != 2, note, index - 1, books, categories)
+        return Book(index, "Book $index Czech Name", "Book $index Original Name", languages, isbn, ISSUE_YEAR + index, "Book $index Description", index != 3, index != 2, note, index - 1, books, categories)
     }
 
     /**

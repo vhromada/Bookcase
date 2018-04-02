@@ -18,6 +18,26 @@ object CategoryUtils {
     const val CATEGORIES_COUNT = 3
 
     /**
+     * Name
+     */
+    private const val NAME = "Name"
+
+    /**
+     * Returns category.
+     *
+     * @param id ID
+     * @return category
+     */
+    fun newCategory(id: Int?): cz.vhromada.book.entity.Category {
+        val position = if (id == null) {
+            0
+        } else {
+            id - 1
+        }
+        return cz.vhromada.book.entity.Category(id, NAME, position)
+    }
+
+    /**
      * Returns category.
      *
      * @param id ID
@@ -40,7 +60,7 @@ object CategoryUtils {
      * @return category
      */
     fun newCategoryDomain(id: Int?, position: Int): Category {
-        return Category(id, "Name", position)
+        return Category(id, NAME, position)
     }
 
     /**

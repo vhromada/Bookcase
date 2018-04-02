@@ -18,6 +18,36 @@ object AuthorUtils {
     const val AUTHORS_COUNT = 3
 
     /**
+     * First name
+     */
+    const val FIRST_NAME = "FirstName"
+
+    /**
+     * Middle name
+     */
+    const val MIDDLE_NAME = "MiddleName"
+
+    /**
+     * Last name
+     */
+    const val LAST_NAME = "LastName"
+
+    /**
+     * Returns author.
+     *
+     * @param id ID
+     * @return author
+     */
+    fun newAuthor(id: Int?): cz.vhromada.book.entity.Author {
+        val position = if (id == null) {
+            0
+        } else {
+            id - 1
+        }
+        return cz.vhromada.book.entity.Author(id, FIRST_NAME, MIDDLE_NAME, LAST_NAME, position)
+    }
+
+    /**
      * Returns author.
      *
      * @param id ID
@@ -40,7 +70,7 @@ object AuthorUtils {
      * @return author
      */
     fun newAuthorDomain(id: Int?, position: Int): Author {
-        return Author(id, "FirstName", "MiddleName", "LastName", position)
+        return Author(id, FIRST_NAME, MIDDLE_NAME, LAST_NAME, position)
     }
 
     /**

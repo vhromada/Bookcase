@@ -73,7 +73,7 @@ class AuthorRepositoryIntegrationTest {
             AuthorUtils.assertAuthorDeepEquals(AuthorUtils.getAuthor(i), author)
         }
 
-        assertThat(authorRepository!!.findById(Integer.MAX_VALUE).isPresent).isFalse()
+        assertThat(authorRepository!!.findById(Int.MAX_VALUE).isPresent).isFalse()
 
         assertThat(AuthorUtils.getAuthorsCount(entityManager!!)).isEqualTo(AuthorUtils.AUTHORS_COUNT)
     }

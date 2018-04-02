@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional
 /**
  * An abstract class represents service for data.
  *
- * @param <T> type of data
  * @author Vladimir Hromada
  */
 @Transactional

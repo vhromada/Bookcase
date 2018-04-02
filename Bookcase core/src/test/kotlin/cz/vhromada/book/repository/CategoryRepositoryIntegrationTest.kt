@@ -73,7 +73,7 @@ class CategoryRepositoryIntegrationTest {
             CategoryUtils.assertCategoryDeepEquals(CategoryUtils.getCategory(i), category)
         }
 
-        assertThat(categoryRepository!!.findById(Integer.MAX_VALUE).isPresent).isFalse()
+        assertThat(categoryRepository!!.findById(Int.MAX_VALUE).isPresent).isFalse()
 
         assertThat(CategoryUtils.getCategoriesCount(entityManager!!)).isEqualTo(CategoryUtils.CATEGORIES_COUNT)
     }

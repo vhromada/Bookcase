@@ -2,21 +2,12 @@ package cz.vhromada.book.service.impl
 
 import cz.vhromada.book.common.Movable
 import cz.vhromada.book.service.BookcaseService
-import cz.vhromada.test.MockitoExtension
+import cz.vhromada.book.stub.RepositoryStub
+import cz.vhromada.book.stub.impl.CacheStub
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.SoftAssertions.assertSoftly
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentCaptor
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.any
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
-import org.mockito.Mockito.verifyZeroInteractions
-import org.mockito.stubbing.Answer
 import org.springframework.cache.Cache
 import org.springframework.cache.support.SimpleValueWrapper
 import org.springframework.data.jpa.repository.JpaRepository
@@ -24,22 +15,14 @@ import org.springframework.data.jpa.repository.JpaRepository
 /**
  * An abstract class represents test for service.
  *
- * @param <T> type of data
  * @author Vladimir Hromada
  */
-@ExtendWith(MockitoExtension::class)
 abstract class AbstractServiceTest<T : Movable> {
-
-    /**
-     * ID
-     */
-    val id = 5
 
     /**
      * Instance of [Cache]
      */
-    @Mock
-    protected val cache: Cache? = null
+    protected val cache = CacheStub()
 
     /**
      * Cache key
@@ -54,6 +37,11 @@ abstract class AbstractServiceTest<T : Movable> {
     protected abstract val itemClass: Class<T>
 
     /**
+     * ID
+     */
+    private val id = 5
+
+    /**
      * Instance of [BookcaseService]
      */
     private lateinit var bookcaseService: BookcaseService<T>
@@ -61,7 +49,7 @@ abstract class AbstractServiceTest<T : Movable> {
     /**
      * Instance of [JpaRepository]
      */
-    private lateinit var repository: JpaRepository<T, Int>
+    private lateinit var repository: RepositoryStub<T>
 
     /**
      * Data list
@@ -73,13 +61,11 @@ abstract class AbstractServiceTest<T : Movable> {
      */
     @BeforeEach
     fun setUp() {
-        assertThat(cache).isNotNull
-
         repository = getRepository()
         bookcaseService = getBookcaseService()
         dataList = mutableListOf(getItem1(), getItem2())
 
-        `when`(repository.findAll()).thenReturn(dataList)
+        repository.findAllResult = dataList
     }
 
     /**
@@ -89,9 +75,10 @@ abstract class AbstractServiceTest<T : Movable> {
     fun newData_CachedData() {
         bookcaseService.newData()
 
-        verify<JpaRepository<T, Int>>(repository).deleteAll()
-        verify<Cache>(cache).clear()
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyDeleteAll()
+        cache.verifyClear()
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -99,15 +86,15 @@ abstract class AbstractServiceTest<T : Movable> {
      */
     @Test
     fun getAll_CachedData() {
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        cache.getResult = SimpleValueWrapper(dataList)
 
         val data = bookcaseService.getAll()
 
         assertThat(data).isEqualTo(dataList)
 
-        verify(cache).get(cacheKey)
-        verifyNoMoreInteractions(cache)
-        verifyZeroInteractions(repository)
+        cache.verifyGet(cacheKey)
+        cache.verifyNoMoreInteractions()
+        repository.verifyZeroInteractions()
     }
 
     /**
@@ -115,16 +102,15 @@ abstract class AbstractServiceTest<T : Movable> {
      */
     @Test
     fun getAll_NotCachedData() {
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
-
         val data = bookcaseService.getAll()
 
         assertThat(data).isEqualTo(dataList)
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -132,15 +118,15 @@ abstract class AbstractServiceTest<T : Movable> {
      */
     @Test
     fun get_CachedExistingData() {
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        cache.getResult = SimpleValueWrapper(dataList)
 
         val data = bookcaseService.get(dataList[0].id!!)
 
         assertThat(data).isEqualTo(dataList[0])
 
-        verify(cache).get(cacheKey)
-        verifyNoMoreInteractions(cache)
-        verifyZeroInteractions(repository)
+        cache.verifyGet(cacheKey)
+        cache.verifyNoMoreInteractions()
+        repository.verifyZeroInteractions()
     }
 
     /**
@@ -148,15 +134,15 @@ abstract class AbstractServiceTest<T : Movable> {
      */
     @Test
     fun get_CachedNotExistingData() {
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        cache.getResult = SimpleValueWrapper(dataList)
 
-        val data = bookcaseService.get(Integer.MAX_VALUE)
+        val data = bookcaseService.get(Int.MAX_VALUE)
 
         assertThat(data).isNull()
 
-        verify(cache).get(cacheKey)
-        verifyNoMoreInteractions(cache)
-        verifyZeroInteractions(repository)
+        cache.verifyGet(cacheKey)
+        cache.verifyNoMoreInteractions()
+        repository.verifyZeroInteractions()
     }
 
     /**
@@ -164,16 +150,15 @@ abstract class AbstractServiceTest<T : Movable> {
      */
     @Test
     fun get_NotCachedExistingData() {
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
-
         val data = bookcaseService.get(dataList[0].id!!)
 
         assertThat(data).isEqualTo(dataList[0])
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -181,16 +166,15 @@ abstract class AbstractServiceTest<T : Movable> {
      */
     @Test
     fun get_NotCachedNotExistingData() {
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
-
-        val data = bookcaseService.get(Integer.MAX_VALUE)
+        val data = bookcaseService.get(Int.MAX_VALUE)
 
         assertThat(data).isNull()
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -199,18 +183,19 @@ abstract class AbstractServiceTest<T : Movable> {
     @Test
     fun add_CachedData() {
         val data = getAddItem()
-
-        `when`(repository.save(any(itemClass))).thenAnswer(setId())
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        repository.id = id
+        cache.getResult = SimpleValueWrapper(dataList)
 
         bookcaseService.add(data)
 
         assertAddResult(data)
 
-        verify<JpaRepository<T, Int>>(repository, times(2)).save(data)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifySave(data)
+        repository.verifySave(data)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -219,19 +204,19 @@ abstract class AbstractServiceTest<T : Movable> {
     @Test
     fun add_NotCachedData() {
         val data = getAddItem()
-
-        `when`(repository.save(any(itemClass))).thenAnswer(setId())
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
+        repository.id = id
 
         bookcaseService.add(data)
 
         assertAddResult(data)
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify<JpaRepository<T, Int>>(repository, times(2)).save(data)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        repository.verifySave(data)
+        repository.verifySave(data)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -241,9 +226,7 @@ abstract class AbstractServiceTest<T : Movable> {
     fun update_CachedData() {
         val data = dataList[0]
         data.position = 10
-
-        `when`(repository.save(any(itemClass))).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        cache.getResult = SimpleValueWrapper(dataList)
 
         bookcaseService.update(data)
 
@@ -252,10 +235,11 @@ abstract class AbstractServiceTest<T : Movable> {
             softly.assertThat(dataList[0]).isEqualTo(data)
         }
 
-        verify<JpaRepository<T, Int>>(repository).save(data)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifySave(data)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -266,9 +250,6 @@ abstract class AbstractServiceTest<T : Movable> {
         val data = dataList[0]
         data.position = 10
 
-        `when`(repository.save(any(itemClass))).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
-
         bookcaseService.update(data)
 
         assertSoftly { softly ->
@@ -276,11 +257,12 @@ abstract class AbstractServiceTest<T : Movable> {
             softly.assertThat(dataList[0]).isEqualTo(data)
         }
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify<JpaRepository<T, Int>>(repository).save(data)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        repository.verifySave(data)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -289,8 +271,7 @@ abstract class AbstractServiceTest<T : Movable> {
     @Test
     fun remove_CachedData() {
         val data = dataList[0]
-
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        cache.getResult = SimpleValueWrapper(dataList)
 
         bookcaseService.remove(data)
 
@@ -299,10 +280,11 @@ abstract class AbstractServiceTest<T : Movable> {
             softly.assertThat(dataList.contains(data)).isFalse
         }
 
-        verify<JpaRepository<T, Int>>(repository).delete(data)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyDelete(data)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -312,8 +294,6 @@ abstract class AbstractServiceTest<T : Movable> {
     fun remove_NotCachedData() {
         val data = dataList[0]
 
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
-
         bookcaseService.remove(data)
 
         assertSoftly { softly ->
@@ -321,11 +301,12 @@ abstract class AbstractServiceTest<T : Movable> {
             softly.assertThat(dataList.contains(data)).isFalse
         }
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify<JpaRepository<T, Int>>(repository).delete(data)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        repository.verifyDelete(data)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -334,10 +315,7 @@ abstract class AbstractServiceTest<T : Movable> {
     @Test
     fun duplicate_CachedData() {
         val copy = getCopyItem()
-        val copyArgumentCaptor = ArgumentCaptor.forClass(itemClass)
-
-        `when`(repository.save(any(itemClass))).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        cache.getResult = SimpleValueWrapper(dataList)
 
         bookcaseService.duplicate(dataList[0])
 
@@ -346,12 +324,12 @@ abstract class AbstractServiceTest<T : Movable> {
             assertDataDeepEquals(copy, dataList[2])
         }
 
-        verify<JpaRepository<T, Int>>(repository).save(copyArgumentCaptor.capture())
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        val copyArgument = repository.verifySave()
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
 
-        val copyArgument = copyArgumentCaptor.value
         assertDataDeepEquals(copy, copyArgument)
     }
 
@@ -361,10 +339,6 @@ abstract class AbstractServiceTest<T : Movable> {
     @Test
     fun duplicate_NotCachedData() {
         val copy = getCopyItem()
-        val copyArgumentCaptor = ArgumentCaptor.forClass(itemClass)
-
-        `when`(repository.save(any(itemClass))).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
 
         bookcaseService.duplicate(dataList[0])
 
@@ -373,13 +347,13 @@ abstract class AbstractServiceTest<T : Movable> {
             assertDataDeepEquals(copy, dataList[2])
         }
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify<JpaRepository<T, Int>>(repository).save(copyArgumentCaptor.capture())
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        val copyArgument = repository.verifySave()
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
 
-        val copyArgument = copyArgumentCaptor.value
         assertDataDeepEquals(copy, copyArgument)
     }
 
@@ -392,9 +366,7 @@ abstract class AbstractServiceTest<T : Movable> {
         val position1 = data1.position
         val data2 = dataList[1]
         val position2 = data2.position
-
-        `when`(repository.save(any(itemClass))).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        cache.getResult = SimpleValueWrapper(dataList)
 
         bookcaseService.moveUp(data2)
 
@@ -403,11 +375,12 @@ abstract class AbstractServiceTest<T : Movable> {
             softly.assertThat(data2.position).isEqualTo(position1)
         }
 
-        verify<JpaRepository<T, Int>>(repository).save(data1)
-        verify<JpaRepository<T, Int>>(repository).save(data2)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifySave(data1)
+        repository.verifySave(data2)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -420,9 +393,6 @@ abstract class AbstractServiceTest<T : Movable> {
         val data2 = dataList[1]
         val position2 = data2.position
 
-        `when`(repository.save(any(itemClass))).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
-
         bookcaseService.moveUp(data2)
 
         assertSoftly { softly ->
@@ -430,12 +400,13 @@ abstract class AbstractServiceTest<T : Movable> {
             softly.assertThat(data2.position).isEqualTo(position1)
         }
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify<JpaRepository<T, Int>>(repository).save(data1)
-        verify<JpaRepository<T, Int>>(repository).save(data2)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        repository.verifySave(data1)
+        repository.verifySave(data2)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -447,9 +418,7 @@ abstract class AbstractServiceTest<T : Movable> {
         val position1 = data1.position
         val data2 = dataList[1]
         val position2 = data2.position
-
-        `when`(repository.save(any(itemClass))).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        cache.getResult = SimpleValueWrapper(dataList)
 
         bookcaseService.moveDown(data1)
 
@@ -458,11 +427,12 @@ abstract class AbstractServiceTest<T : Movable> {
             softly.assertThat(data2.position).isEqualTo(position1)
         }
 
-        verify<JpaRepository<T, Int>>(repository).save(data1)
-        verify<JpaRepository<T, Int>>(repository).save(data2)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifySave(data1)
+        repository.verifySave(data2)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -475,9 +445,6 @@ abstract class AbstractServiceTest<T : Movable> {
         val data2 = dataList[1]
         val position2 = data2.position
 
-        `when`(repository.save(any(itemClass))).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
-
         bookcaseService.moveDown(data1)
 
         assertSoftly { softly ->
@@ -485,12 +452,13 @@ abstract class AbstractServiceTest<T : Movable> {
             softly.assertThat(data2.position).isEqualTo(position1)
         }
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify<JpaRepository<T, Int>>(repository).save(data1)
-        verify<JpaRepository<T, Int>>(repository).save(data2)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        repository.verifySave(data1)
+        repository.verifySave(data2)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -498,8 +466,7 @@ abstract class AbstractServiceTest<T : Movable> {
      */
     @Test
     fun updatePositions_CachedData() {
-        `when`(repository.saveAll(dataList)).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(SimpleValueWrapper(dataList))
+        cache.getResult = SimpleValueWrapper(dataList)
 
         bookcaseService.updatePositions()
 
@@ -508,10 +475,11 @@ abstract class AbstractServiceTest<T : Movable> {
             assertThat(data.position).isEqualTo(i)
         }
 
-        verify<JpaRepository<T, Int>>(repository).saveAll(dataList)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifySaveAll(dataList)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
@@ -519,9 +487,6 @@ abstract class AbstractServiceTest<T : Movable> {
      */
     @Test
     fun updatePositions_NotCachedData() {
-        `when`(repository.saveAll(dataList)).thenAnswer { invocation -> invocation.arguments[0] }
-        `when`(cache!!.get(any(String::class.java))).thenReturn(null)
-
         bookcaseService.updatePositions()
 
         for (i in dataList.indices) {
@@ -529,19 +494,20 @@ abstract class AbstractServiceTest<T : Movable> {
             assertThat(data.position).isEqualTo(i)
         }
 
-        verify<JpaRepository<T, Int>>(repository).findAll()
-        verify<JpaRepository<T, Int>>(repository).saveAll(dataList)
-        verify(cache).get(cacheKey)
-        verify(cache).put(cacheKey, dataList)
-        verifyNoMoreInteractions(repository, cache)
+        repository.verifyFindAll()
+        repository.verifySaveAll(dataList)
+        cache.verifyGet(cacheKey)
+        cache.verifyPut(cacheKey, dataList)
+        repository.verifyNoMoreInteractions()
+        cache.verifyNoMoreInteractions()
     }
 
     /**
-     * Returns instance of [JpaRepository].
+     * Returns instance of [RepositoryStub].
      *
-     * @return instance of [JpaRepository]
+     * @return instance of [RepositoryStub]
      */
-    protected abstract fun getRepository(): JpaRepository<T, Int>
+    protected abstract fun getRepository(): RepositoryStub<T>
 
     /**
      * Returns instance of [BookcaseService].
@@ -585,20 +551,6 @@ abstract class AbstractServiceTest<T : Movable> {
      * @param actual   actual data
      */
     protected abstract fun assertDataDeepEquals(expected: T, actual: T)
-
-    /**
-     * Sets ID.
-     *
-     * @return mocked answer
-     */
-    private fun setId(): Answer<T> {
-        return Answer { invocation ->
-            @Suppress("UNCHECKED_CAST")
-            val movable: T = invocation.arguments[0] as T
-            movable.id = id
-            return@Answer movable
-        }
-    }
 
     /**
      * Asserts result of [BookcaseService.add]

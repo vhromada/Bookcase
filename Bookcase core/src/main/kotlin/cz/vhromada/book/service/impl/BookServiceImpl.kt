@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 class BookServiceImpl(bookRepository: BookRepository, @Value("#{cacheManager.getCache('bookcaseCache')}") cache: Cache) : AbstractBookcaseService<Book>(bookRepository, cache, "books") {
 
     override fun getCopy(data: Book): Book {
-        return Book(null, data.czechName, data.originalName, data.languages, data.isbn, data.issueYear, data.description, data.electronic, data.paper, data.note, data.position, data.authors, data.categories);
+        return Book(null, data.czechName, data.originalName, data.languages, data.isbn, data.issueYear, data.description, data.electronic, data.paper, data.note, data.position, data.authors, data.categories)
     }
 
 }
