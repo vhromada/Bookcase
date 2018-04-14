@@ -43,6 +43,7 @@
 
     <modules>
         <module>Bookcase core</module>
+        <module>Bookcase REST</module>
     </modules>
 
     <properties>
