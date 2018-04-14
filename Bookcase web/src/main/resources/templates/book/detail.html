@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="book" type="cz.vhromada.book.entity.Book"*/-->
+    <head th:replace="layout :: head"></head>
+    <body>
+        <th:block th:replace="layout :: menu"/>
+        <th:block th:replace="book/menu :: menu"/>
+        <div class="container-fluid">
+            <th:block th:replace="layout :: title"/>
+            <table class="table table-hover detail">
+                <tbody>
+                    <tr>
+                        <td class="title">Czech name</td>
+                        <td th:text="${book.czechName}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Original name</td>
+                        <td th:text="${book.originalName}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Languages</td>
+                        <td th:text="${book.languages}"></td>
+                    </tr>
+                    <tr th:if="${!#strings.isEmpty(book.isbn)}">
+                        <td class="title">Isbn</td>
+                        <td th:text="${book.isbn}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">IssueYear</td>
+                        <td th:text="${book.issueYear}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Description</td>
+                        <td th:text="${book.description}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Electronic</td>
+                        <td th:text="${book.electronic}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Paper</td>
+                        <td th:text="${book.paper}"></td>
+                    </tr>
+                    <tr th:if="${!#strings.isEmpty(book.note)}">
+                        <td class="title">Note</td>
+                        <td th:text="${book.note}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Authors</td>
+                        <td th:text="${book.authors}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Categories</td>
+                        <td th:text="${book.categories}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

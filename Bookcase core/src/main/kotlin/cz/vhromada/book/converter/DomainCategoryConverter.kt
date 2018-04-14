@@ -5,7 +5,7 @@ import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
 /**
- * A class represent converter for category.
+ * A class represent format for category.
  *
  * @author Vladimir Hromada
  */

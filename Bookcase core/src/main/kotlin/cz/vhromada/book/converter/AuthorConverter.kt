@@ -5,7 +5,7 @@ import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
 /**
- * A class represent converter for author.
+ * A class represent format for author.
  *
  * @author Vladimir Hromada
  */

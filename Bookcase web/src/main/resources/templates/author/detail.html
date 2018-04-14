@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="author" type="cz.vhromada.book.entity.Author"*/-->
+    <head th:replace="layout :: head"></head>
+    <body>
+        <th:block th:replace="layout :: menu"/>
+        <th:block th:replace="author/menu :: menu"/>
+        <div class="container-fluid">
+            <th:block th:replace="layout :: title"/>
+            <table class="table table-hover detail">
+                <tbody>
+                    <tr>
+                        <td class="title">First name</td>
+                        <td th:text="${author.firstName}"></td>
+                    </tr>
+                    <tr th:if="${!#strings.isEmpty(author.middleName)}">
+                    <td class="title">Middle name</td>
+                        <td th:text="${author.middleName}"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Last name</td>
+                        <td th:text="${author.lastName}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

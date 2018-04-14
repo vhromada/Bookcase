@@ -15,21 +15,6 @@ enum class Language {
     /**
      * English language
      */
-    EN,
-
-    /**
-     * French language
-     */
-    FR,
-
-    /**
-     * Japanese language
-     */
-    JP,
-
-    /**
-     * Slovak language
-     */
-    SK
+    EN
 
 }

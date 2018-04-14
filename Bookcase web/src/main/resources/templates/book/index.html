@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout :: head"></head>
+    <body>
+        <th:block th:replace="layout :: menu"/>
+        <th:block th:replace="book/menu :: menu"/>
+        <div class="container-fluid">
+            <th:block th:replace="layout :: title"/>
+            <table class="table table-hover" th:if="${!#lists.isEmpty(books)}">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="book : ${books}">
+                        <tr>
+                            <td><a th:href="@{|/books/${book.id}/detail|}" th:text="${book.czechName}"></a></td>
+                            <td><a th:href="@{|/books/moveUp/${book.id}|}" th:if="${books.indexOf(book) > 0}">Move up</a></td>
+                            <td><a th:href="@{|/books/moveDown/${book.id}|}" th:if="${books.indexOf(book) < books.size() - 1}">Move down</a></td>
+                            <td><a th:href="@{|/books/duplicate/${book.id}|}">Duplicate</a></td>
+                            <td><a th:href="@{|/books/edit/${book.id}|}">Edit</a></td>
+                            <td><a th:href="@{|/books/remove/${book.id}|}">Remove</a></td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+            <th:block th:if="${#lists.isEmpty(books)}">No records.</th:block>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Count of books</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td th:text="${books.size()}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

@@ -7,7 +7,7 @@ import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
 /**
- * A class represent converter for book.
+ * A class represent format for book.
  *
  * @author Vladimir Hromada
  */
