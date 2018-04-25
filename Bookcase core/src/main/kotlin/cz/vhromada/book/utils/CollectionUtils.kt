@@ -20,7 +20,7 @@ object CollectionUtils {
             return emptyList<T>().toMutableList()
         }
 
-        return data.sortedWith(compareBy({ it.id }, { it.position })).toMutableList()
+        return data.sortedWith(compareBy({ it.position }, { it.id })).toMutableList()
     }
 
 }

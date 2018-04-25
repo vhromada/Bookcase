@@ -20,7 +20,7 @@
                     </tr>
                     <tr>
                         <td class="title">Languages</td>
-                        <td th:text="${book.languages}"></td>
+                        <td th:text="${T(cz.vhromada.book.web.ConvertUtils).convertLanguages(book.languages)}"></td>
                     </tr>
                     <tr th:if="${!#strings.isEmpty(book.isbn)}">
                         <td class="title">Isbn</td>
@@ -35,12 +35,8 @@
                         <td th:text="${book.description}"></td>
                     </tr>
                     <tr>
-                        <td class="title">Electronic</td>
-                        <td th:text="${book.electronic}"></td>
-                    </tr>
-                    <tr>
-                        <td class="title">Paper</td>
-                        <td th:text="${book.paper}"></td>
+                        <td class="title">Version</td>
+                        <td th:text="${T(cz.vhromada.book.web.ConvertUtils).convertVersion(book)}"></td>
                     </tr>
                     <tr th:if="${!#strings.isEmpty(book.note)}">
                         <td class="title">Note</td>
@@ -48,11 +44,11 @@
                     </tr>
                     <tr>
                         <td class="title">Authors</td>
-                        <td th:text="${book.authors}"></td>
+                        <td th:text="${T(cz.vhromada.book.web.ConvertUtils).convertAuthors(book.authors)}"></td>
                     </tr>
                     <tr>
                         <td class="title">Categories</td>
-                        <td th:text="${book.categories}"></td>
+                        <td th:text="${T(cz.vhromada.book.web.ConvertUtils).convertCategories(book.categories)}"></td>
                     </tr>
                 </tbody>
             </table>

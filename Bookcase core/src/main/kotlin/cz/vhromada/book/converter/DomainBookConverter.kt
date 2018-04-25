@@ -3,6 +3,7 @@ package cz.vhromada.book.converter
 import cz.vhromada.book.entity.Author
 import cz.vhromada.book.entity.Book
 import cz.vhromada.book.entity.Category
+import cz.vhromada.book.utils.CollectionUtils
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
@@ -41,7 +42,7 @@ class DomainBookConverter(
         for (author in source) {
             authors.add(authorConverter.convert(author))
         }
-        return authors
+        return CollectionUtils.getSortedData(authors)
     }
 
     private fun convertCategories(source: List<cz.vhromada.book.domain.Category>): List<Category> {
@@ -49,7 +50,7 @@ class DomainBookConverter(
         for (category in source) {
             categories.add(categoryConverter.convert(category))
         }
-        return categories
+        return CollectionUtils.getSortedData(categories)
     }
 
 }
