@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
     <!--/*@thymesVar id="action" type="java.lang.String"*/-->
     <!--/*@thymesVar id="book" type="cz.vhromada.book.web.fo.BookFO"*/-->
-    <!--/*@thymesVar id="languages" type="cz.vhromada.catalog.common.Language[]"*/-->
+    <!--/*@thymesVar id="languages" type="cz.vhromada.common.Language[]"*/-->
     <!--/*@thymesVar id="authors" type="java.util.List<cz.vhromada.book.entity.Author>"*/-->
     <!--/*@thymesVar id="categories" type="java.util.List<cz.vhromada.book.entity.Category>"*/-->
     <head th:replace="layout :: head"></head>
@@ -88,7 +88,8 @@
                         <label class="col-sm-2 control-label" for="authors">Authors</label>
                         <div class="col-sm-10">
                             <select id="authors" name="authors" multiple="multiple" class="form-control" th:field="*{authors}">
-                                <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.lastName}"></option>
+                                <option th:each="author : ${authors}" th:value="${author.id}"
+                                        th:text="${T(cz.vhromada.book.web.converter.ConvertUtils).convertAuthor(author)}"></option>
                             </select>
                             <span class="error" th:if="${#fields.hasErrors('authors')}" th:errors="*{authors}"></span>
                         </div>

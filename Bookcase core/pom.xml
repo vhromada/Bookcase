@@ -7,7 +7,7 @@
     <parent>
         <artifactId>bookcase</artifactId>
         <groupId>cz.vhromada.bookcase</groupId>
-        <version>0.0.1</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>bookcase-core</artifactId>
@@ -15,14 +15,6 @@
     <name>Bookcase core</name>
 
     <dependencies>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -32,12 +24,16 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
         <dependency>
+            <groupId>cz.vhromada.common</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>cz.vhromada.validation</groupId>
             <artifactId>result</artifactId>
         </dependency>
         <dependency>
             <groupId>cz.vhromada.converters</groupId>
-            <artifactId>converters-spring</artifactId>
+            <artifactId>converters-orika</artifactId>
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
@@ -46,6 +42,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cz.vhromada.common</groupId>
+            <artifactId>test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -59,14 +60,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-   <build>
-        <plugins>
-            <plugin>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <groupId>org.jetbrains.kotlin</groupId>
-            </plugin>
-        </plugins>
-   </build>
 
 </project>

@@ -7,7 +7,7 @@
     <parent>
         <artifactId>bookcase</artifactId>
         <groupId>cz.vhromada.bookcase</groupId>
-        <version>0.0.1</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>bookcase-rest</artifactId>
@@ -57,10 +57,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <groupId>org.jetbrains.kotlin</groupId>
             </plugin>
         </plugins>
     </build>

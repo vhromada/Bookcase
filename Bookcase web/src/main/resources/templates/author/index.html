@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="authors" type="java.util.List<cz.vhromada.book.entity.Author>"*/-->
     <head th:replace="layout :: head"></head>
     <body>
         <th:block th:replace="layout :: menu"/>
@@ -22,7 +21,7 @@
                 <tbody>
                     <th:block th:each="author : ${authors}">
                         <tr>
-                            <td><a th:href="@{|/authors/${author.id}/detail|}" th:text="${author.firstName + ' ' + author.lastName}"></a></td>
+                            <td th:text="${T(cz.vhromada.book.web.converter.ConvertUtils).convertAuthor(author)}"></td>
                             <td><a th:href="@{|/authors/moveUp/${author.id}|}" th:if="${authors.indexOf(author) > 0}">Move up</a></td>
                             <td><a th:href="@{|/authors/moveDown/${author.id}|}" th:if="${authors.indexOf(author) < authors.size() - 1}">Move down</a></td>
                             <td><a th:href="@{|/authors/duplicate/${author.id}|}">Duplicate</a></td>

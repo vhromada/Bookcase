@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="categories" type="java.util.List<cz.vhromada.book.entity.Category>"*/-->
     <head th:replace="layout :: head"></head>
     <body>
         <th:block th:replace="layout :: menu"/>
@@ -22,7 +21,7 @@
                 <tbody>
                     <th:block th:each="category : ${categories}">
                         <tr>
-                            <td><a th:href="@{|/categories/${category.id}/detail|}" th:text="${category.name}"></a></td>
+                            <td th:text="${category.name}">Name</td>
                             <td><a th:href="@{|/categories/moveUp/${category.id}|}" th:if="${categories.indexOf(category) > 0}">Move up</a></td>
                             <td>
                                 <a th:href="@{|/categories/moveDown/${category.id}|}" th:if="${categories.indexOf(category) < categories.size() - 1}">

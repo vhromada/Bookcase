@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="book" type="cz.vhromada.book.entity.Book"*/-->
     <head th:replace="layout :: head"></head>
     <body>
         <th:block th:replace="layout :: menu"/>
@@ -20,7 +19,7 @@
                     </tr>
                     <tr>
                         <td class="title">Languages</td>
-                        <td th:text="${T(cz.vhromada.book.web.ConvertUtils).convertLanguages(book.languages)}"></td>
+                        <td th:text="${T(cz.vhromada.book.web.converter.ConvertUtils).convertLanguages(book.languages)}"></td>
                     </tr>
                     <tr th:if="${!#strings.isEmpty(book.isbn)}">
                         <td class="title">Isbn</td>
@@ -36,7 +35,7 @@
                     </tr>
                     <tr>
                         <td class="title">Version</td>
-                        <td th:text="${T(cz.vhromada.book.web.ConvertUtils).convertVersion(book)}"></td>
+                        <td th:text="${T(cz.vhromada.book.web.converter.ConvertUtils).convertVersion(book)}"></td>
                     </tr>
                     <tr th:if="${!#strings.isEmpty(book.note)}">
                         <td class="title">Note</td>
@@ -44,11 +43,11 @@
                     </tr>
                     <tr>
                         <td class="title">Authors</td>
-                        <td th:text="${T(cz.vhromada.book.web.ConvertUtils).convertAuthors(book.authors)}"></td>
+                        <td th:text="${T(cz.vhromada.book.web.converter.ConvertUtils).convertAuthors(book.authors)}"></td>
                     </tr>
                     <tr>
                         <td class="title">Categories</td>
-                        <td th:text="${T(cz.vhromada.book.web.ConvertUtils).convertCategories(book.categories)}"></td>
+                        <td th:text="${T(cz.vhromada.book.web.converter.ConvertUtils).convertCategories(book.categories)}"></td>
                     </tr>
                 </tbody>
             </table>
