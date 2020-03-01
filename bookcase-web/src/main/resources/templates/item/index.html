@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout :: head"></head>
+    <body>
+        <th:block th:replace="layout :: menu"/>
+        <th:block th:replace="item/menu :: menu"/>
+        <div class="container-fluid">
+            <th:block th:replace="layout :: title"/>
+            <table class="table table-hover" th:if="${!#lists.isEmpty(items)}">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="item : ${items}">
+                        <tr>
+                            <td><a th:href="@{|/books/${book}/items/${item.id}/detail|}" th:text="${item.format}"></a></td>
+                            <td><a th:href="@{|/books/${book}/items/moveUp/${item.id}|}" th:if="${items.indexOf(item) > 0}">Move up</a></td>
+                            <td><a th:href="@{|/books/${book}/items/moveDown/${item.id}|}" th:if="${items.indexOf(item) < items.size() - 1}">Move down</a></td>
+                            <td><a th:href="@{|/books/${book}/items/duplicate/${item.id}|}">Duplicate</a></td>
+                            <td><a th:href="@{|/books/${book}/items/edit/${item.id}|}">Edit</a></td>
+                            <td><a th:href="@{|/books/${book}/items/remove/${item.id}|}">Remove</a></td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+            <th:block th:if="${#lists.isEmpty(items)}">No records.</th:block>
+        </div>
+    </body>
+</html>

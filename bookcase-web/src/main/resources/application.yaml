@@ -1,0 +1,19 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: Bookcase
+  datasource:
+    driverClassName: org.h2.Driver
+    name: Bookcase
+    password: stargate stargate
+    url: jdbc:h2:.\\db\\Bookcase;CIPHER=AES
+    username: Lavina
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    show-sql: false
+  thymeleaf:
+    cache: false
