@@ -18,7 +18,8 @@ class AuthorMapper : Mapper<Author, cz.vhromada.bookcase.domain.Author> {
                 firstName = source.firstName!!,
                 middleName = source.middleName,
                 lastName = source.lastName!!,
-                position = source.position)
+                position = source.position,
+                audit = null)
     }
 
     override fun mapBack(source: cz.vhromada.bookcase.domain.Author): Author {

@@ -4,6 +4,8 @@ import cz.vhromada.bookcase.entity.Author
 import cz.vhromada.bookcase.facade.AuthorFacade
 import cz.vhromada.common.facade.AbstractMovableParentFacade
 import cz.vhromada.common.mapper.Mapper
+import cz.vhromada.common.provider.AccountProvider
+import cz.vhromada.common.provider.TimeProvider
 import cz.vhromada.common.service.MovableService
 import cz.vhromada.common.validator.MovableValidator
 import org.springframework.stereotype.Component
@@ -16,5 +18,8 @@ import org.springframework.stereotype.Component
 @Component("authorFacade")
 class AuthorFacadeImpl(
         authorService: MovableService<cz.vhromada.bookcase.domain.Author>,
+        accountProvider: AccountProvider,
+        timeProvider: TimeProvider,
         mapper: Mapper<Author, cz.vhromada.bookcase.domain.Author>,
-        authorValidator: MovableValidator<Author>) : AbstractMovableParentFacade<Author, cz.vhromada.bookcase.domain.Author>(authorService, mapper, authorValidator), AuthorFacade
+        authorValidator: MovableValidator<Author>
+) : AbstractMovableParentFacade<Author, cz.vhromada.bookcase.domain.Author>(authorService, accountProvider, timeProvider, mapper, authorValidator), AuthorFacade

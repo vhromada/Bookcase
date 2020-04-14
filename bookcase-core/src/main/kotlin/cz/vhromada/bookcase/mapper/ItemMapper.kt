@@ -18,7 +18,8 @@ class ItemMapper : Mapper<Item, cz.vhromada.bookcase.domain.Item> {
                 languages = source.languages!!.filterNotNull(),
                 format = source.format!!,
                 note = source.note,
-                position = source.position)
+                position = source.position,
+                audit = null)
     }
 
     override fun mapBack(source: cz.vhromada.bookcase.domain.Item): Item {

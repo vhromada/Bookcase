@@ -1,7 +1,7 @@
 package cz.vhromada.bookcase.web.fo
 
 import cz.vhromada.bookcase.common.Format
-import cz.vhromada.common.Language
+import cz.vhromada.common.entity.Language
 import java.io.Serializable
 import java.util.Objects
 import javax.validation.constraints.NotNull

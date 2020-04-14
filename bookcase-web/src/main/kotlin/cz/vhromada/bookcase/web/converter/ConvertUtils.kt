@@ -2,7 +2,7 @@ package cz.vhromada.bookcase.web.converter
 
 import cz.vhromada.bookcase.entity.Author
 import cz.vhromada.bookcase.entity.Category
-import cz.vhromada.common.Language
+import cz.vhromada.common.entity.Language
 
 /**
  * A class represents utility for converting data.

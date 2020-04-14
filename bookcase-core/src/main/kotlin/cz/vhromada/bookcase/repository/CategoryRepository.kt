@@ -8,4 +8,14 @@ import org.springframework.data.jpa.repository.JpaRepository
  *
  * @author Vladimir Hromada
  */
-interface CategoryRepository : JpaRepository<Category, Int>
+interface CategoryRepository : JpaRepository<Category, Int> {
+
+    /**
+     * Returns all categories created by user.
+     *
+     * @param user user's ID
+     * @return all categories created by user
+     */
+    fun findByAuditCreatedUser(user: Int): List<Category>
+
+}

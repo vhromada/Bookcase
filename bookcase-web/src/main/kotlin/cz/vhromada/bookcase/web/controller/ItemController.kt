@@ -8,7 +8,7 @@ import cz.vhromada.bookcase.facade.ItemFacade
 import cz.vhromada.bookcase.web.exception.IllegalRequestException
 import cz.vhromada.bookcase.web.fo.ItemFO
 import cz.vhromada.bookcase.web.mapper.ItemMapper
-import cz.vhromada.common.Language
+import cz.vhromada.common.entity.Language
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors

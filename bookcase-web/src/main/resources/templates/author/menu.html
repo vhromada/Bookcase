@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
     <body>
-        <div class="container-fluid innerMenu" th:fragment="menu">
+        <div class="navbar navbar-light bg-light navbar-expand-md innerMenu" th:fragment="menu">
             <ul class="nav navbar-nav">
-                <li><a th:href="@{/authors/list}">All authors</a></li>
-                <li><a th:href="@{/authors/new}">New data</a></li>
-                <li><a th:href="@{/authors/add}">Add author</a></li>
-                <li><a th:href="@{/authors/update}">Update positions</a></li>
+                <li class="nav-item"><a th:href="@{/authors/list}" class="nav-link">All authors</a></li>
+                <li class="nav-item"><a th:href="@{/authors/new}" class="nav-link">New data</a></li>
+                <li class="nav-item"><a th:href="@{/authors/add}" class="nav-link">Add author</a></li>
+                <li class="nav-item"><a th:href="@{/authors/update}" class="nav-link">Update positions</a></li>
             </ul>
         </div>
     </body>

@@ -26,7 +26,8 @@ class BookMapper(
                 position = source.position,
                 authors = authorMapper.map(source.authors!!.filterNotNull()),
                 categories = categoryMapper.map(source.categories!!.filterNotNull()),
-                items = emptyList())
+                items = emptyList(),
+                audit = null)
     }
 
     override fun mapBack(source: cz.vhromada.bookcase.domain.Book): Book {

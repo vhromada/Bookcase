@@ -1,14 +1,16 @@
 package cz.vhromada.bookcase.domain
 
 import cz.vhromada.bookcase.common.Format
-import cz.vhromada.common.Language
-import cz.vhromada.common.Movable
+import cz.vhromada.common.domain.Audit
+import cz.vhromada.common.domain.AuditEntity
+import cz.vhromada.common.entity.Language
 import org.hibernate.annotations.Fetch
 import org.hibernate.annotations.FetchMode
 import java.util.Objects
 import javax.persistence.CollectionTable
 import javax.persistence.Column
 import javax.persistence.ElementCollection
+import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -61,7 +63,13 @@ data class Item(
         /**
          * Position
          */
-        override var position: Int?) : Movable {
+        override var position: Int?,
+
+        /**
+         * Audit
+         */
+        @Embedded
+        override var audit: Audit?) : AuditEntity(audit) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

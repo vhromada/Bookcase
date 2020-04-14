@@ -9,15 +9,23 @@ DROP TABLE IF EXISTS categories;
 CREATE TABLE categories (
   id            INTEGER      NOT NULL CONSTRAINT categories_pk PRIMARY KEY,
   category_name VARCHAR(100) NOT NULL CONSTRAINT categories_category_name_ck CHECK (LENGTH(category_name) > 0),
-  position      INTEGER      NOT NULL CONSTRAINT categories_position_ck CHECK (position >= 0)
+  position      INTEGER      NOT NULL CONSTRAINT categories_position_ck CHECK (position >= 0),
+  created_user  INTEGER      NOT NULL,
+  created_time  TIMESTAMP    NOT NULL,
+  updated_user  INTEGER      NOT NULL,
+  updated_time  TIMESTAMP    NOT NULL
 );
 
 CREATE TABLE authors (
-  id          INTEGER      NOT NULL CONSTRAINT authors_pk PRIMARY KEY,
-  first_name  VARCHAR(100) NOT NULL CONSTRAINT authors_first_name_ck CHECK (LENGTH(first_name) > 0),
-  middle_name VARCHAR(100),
-  last_name   VARCHAR(100) NOT NULL CONSTRAINT authors_last_name_ck CHECK (LENGTH(last_name) > 0),
-  position    INTEGER      NOT NULL CONSTRAINT authors_position_ck CHECK (position >= 0)
+  id           INTEGER      NOT NULL CONSTRAINT authors_pk PRIMARY KEY,
+  first_name   VARCHAR(100) NOT NULL CONSTRAINT authors_first_name_ck CHECK (LENGTH(first_name) > 0),
+  middle_name  VARCHAR(100),
+  last_name    VARCHAR(100) NOT NULL CONSTRAINT authors_last_name_ck CHECK (LENGTH(last_name) > 0),
+  position     INTEGER      NOT NULL CONSTRAINT authors_position_ck CHECK (position >= 0),
+  created_user INTEGER      NOT NULL,
+  created_time TIMESTAMP    NOT NULL,
+  updated_user INTEGER      NOT NULL,
+  updated_time TIMESTAMP    NOT NULL
 );
 
 CREATE TABLE books (
@@ -28,7 +36,11 @@ CREATE TABLE books (
   issue_year    INTEGER       NOT NULL CONSTRAINT books_issue_year_ck CHECK (issue_year BETWEEN 1900 AND 2100),
   description   VARCHAR(1000) NOT NULL CONSTRAINT books_description_ck CHECK (LENGTH(description) > 0),
   note          VARCHAR(100),
-  position      INTEGER       NOT NULL CONSTRAINT books_position_ck CHECK (position >= 0)
+  position      INTEGER       NOT NULL CONSTRAINT books_position_ck CHECK (position >= 0),
+  created_user  INTEGER      NOT NULL,
+  created_time  TIMESTAMP    NOT NULL,
+  updated_user  INTEGER      NOT NULL,
+  updated_time  TIMESTAMP    NOT NULL
 );
 
 CREATE TABLE items (
@@ -36,7 +48,12 @@ CREATE TABLE items (
   book          INTEGER       CONSTRAINT TABLE_book_fk REFERENCES books (id),
   format        VARCHAR(10)   NOT NULL CONSTRAINT items_format_ck CHECK (format IN ('PAPER', 'PDF', 'DOC', 'TXT')),
   note          VARCHAR(100),
-  position      INTEGER       NOT NULL CONSTRAINT items_position_ck CHECK (position >= 0)
+  position      INTEGER       NOT NULL CONSTRAINT items_position_ck CHECK (position >= 0),
+  created_user INTEGER      NOT NULL,
+  created_time TIMESTAMP    NOT NULL,
+  updated_user INTEGER      NOT NULL,
+  updated_time TIMESTAMP    NOT NULL
+
 );
 
 CREATE TABLE item_languages (

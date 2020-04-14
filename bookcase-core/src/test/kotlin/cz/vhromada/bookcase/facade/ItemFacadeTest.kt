@@ -1,24 +1,25 @@
-package cz.vhromada.bookcase.facade.impl
+package cz.vhromada.bookcase.facade
 
 import com.nhaarman.mockitokotlin2.KArgumentCaptor
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import cz.vhromada.bookcase.entity.Book
 import cz.vhromada.bookcase.entity.Item
+import cz.vhromada.bookcase.facade.impl.ItemFacadeImpl
 import cz.vhromada.bookcase.utils.BookUtils
 import cz.vhromada.bookcase.utils.ItemUtils
 import cz.vhromada.common.facade.MovableChildFacade
 import cz.vhromada.common.test.facade.MovableChildFacadeTest
 
 /**
- * A class represents test for class [ItemFacadeImpl].
+ * A class represents test for class [ItemFacade].
  *
  * @author Vladimir Hromada
  */
-class ItemFacadeImplTest : MovableChildFacadeTest<Item, cz.vhromada.bookcase.domain.Item, Book, cz.vhromada.bookcase.domain.Book>() {
+class ItemFacadeTest : MovableChildFacadeTest<Item, cz.vhromada.bookcase.domain.Item, Book, cz.vhromada.bookcase.domain.Book>() {
 
     override fun getFacade(): MovableChildFacade<Item, Book> {
-        return ItemFacadeImpl(service, mapper, parentMovableValidator, childMovableValidator)
+        return ItemFacadeImpl(service, accountProvider, timeProvider, mapper, parentMovableValidator, childMovableValidator)
     }
 
     override fun newParentEntity(id: Int): Book {

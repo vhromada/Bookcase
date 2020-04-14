@@ -3,7 +3,7 @@ package cz.vhromada.bookcase.web.common
 import cz.vhromada.bookcase.common.Format
 import cz.vhromada.bookcase.entity.Item
 import cz.vhromada.bookcase.web.fo.ItemFO
-import cz.vhromada.common.Language
+import cz.vhromada.common.entity.Language
 import org.assertj.core.api.SoftAssertions.assertSoftly
 
 /**

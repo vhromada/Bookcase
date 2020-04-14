@@ -16,7 +16,8 @@ class CategoryMapper : Mapper<Category, cz.vhromada.bookcase.domain.Category> {
         return cz.vhromada.bookcase.domain.Category(
                 id = source.id,
                 name = source.name!!,
-                position = source.position)
+                position = source.position,
+                audit = null)
     }
 
     override fun mapBack(source: cz.vhromada.bookcase.domain.Category): Category {

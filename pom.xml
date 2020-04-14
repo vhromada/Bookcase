@@ -7,12 +7,12 @@
     <parent>
          <groupId>cz.vhromada.project</groupId>
         <artifactId>project-parent</artifactId>
-        <version>4.0.3</version>
+        <version>4.0.4</version>
     </parent>
 
     <groupId>cz.vhromada.bookcase</groupId>
     <artifactId>bookcase</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <packaging>pom</packaging>
 
     <name>Bookcase</name>
@@ -47,7 +47,7 @@
     </modules>
 
     <properties>
-        <common.version>3.0.3</common.version>
+        <common.version>4.0.0</common.version>
     </properties>
 
     <dependencyManagement>
@@ -55,6 +55,11 @@
             <dependency>
                 <groupId>cz.vhromada.common</groupId>
                 <artifactId>common-core</artifactId>
+                <version>${common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cz.vhromada.common</groupId>
+                <artifactId>common-account</artifactId>
                 <version>${common.version}</version>
             </dependency>
             <dependency>

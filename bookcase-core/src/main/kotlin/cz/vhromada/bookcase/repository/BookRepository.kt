@@ -8,4 +8,14 @@ import org.springframework.data.jpa.repository.JpaRepository
  *
  * @author Vladimir Hromada
  */
-interface BookRepository : JpaRepository<Book, Int>
+interface BookRepository : JpaRepository<Book, Int> {
+
+    /**
+     * Returns all books created by user.
+     *
+     * @param user user's ID
+     * @return all books created by user
+     */
+    fun findByAuditCreatedUser(user: Int): List<Book>
+
+}

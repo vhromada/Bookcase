@@ -11,7 +11,7 @@ import javax.persistence.EntityManager
  * @return updated category
  */
 fun cz.vhromada.bookcase.domain.Category.updated(): cz.vhromada.bookcase.domain.Category {
-    return copy(name = "Name")
+    return copy(name = "Name", audit = AuditUtils.newAudit())
 }
 
 /**
@@ -66,7 +66,7 @@ object CategoryUtils {
      * @return category
      */
     fun newCategoryDomain(id: Int?): cz.vhromada.bookcase.domain.Category {
-        return cz.vhromada.bookcase.domain.Category(id = id, name = "", position = if (id == null) null else id - 1)
+        return cz.vhromada.bookcase.domain.Category(id = id, name = "", position = if (id == null) null else id - 1, audit = null)
                 .updated()
     }
 
@@ -91,7 +91,8 @@ object CategoryUtils {
         return cz.vhromada.bookcase.domain.Category(
                 id = index,
                 name = "$CATEGORY$index Name",
-                position = index - 1)
+                position = index - 1,
+                audit = AuditUtils.getAudit())
     }
 
     /**

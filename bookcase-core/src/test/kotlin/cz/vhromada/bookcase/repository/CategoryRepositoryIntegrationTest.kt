@@ -1,6 +1,7 @@
 package cz.vhromada.bookcase.repository
 
 import cz.vhromada.bookcase.CoreTestConfiguration
+import cz.vhromada.bookcase.utils.AuditUtils
 import cz.vhromada.bookcase.utils.CategoryUtils
 import cz.vhromada.bookcase.utils.updated
 import org.assertj.core.api.Assertions.assertThat
@@ -55,6 +56,7 @@ class CategoryRepositoryIntegrationTest {
      * Test method for get category.
      */
     @Test
+    @Suppress("UsePropertyAccessSyntax")
     fun getCategory() {
         for (i in 1 until CategoryUtils.CATEGORIES_COUNT) {
             val category = categoryRepository.findById(i).orElse(null)
@@ -133,6 +135,18 @@ class CategoryRepositoryIntegrationTest {
         categoryRepository.deleteAll()
 
         assertThat(CategoryUtils.getCategoriesCount(entityManager)).isEqualTo(0)
+    }
+
+    /**
+     * Test method for get categories for user.
+     */
+    @Test
+    fun findByAuditCreatedUser() {
+        val categories = categoryRepository.findByAuditCreatedUser(AuditUtils.getAudit().createdUser)
+
+        CategoryUtils.assertCategoriesDeepEquals(CategoryUtils.getCategories(), categories)
+
+        assertThat(CategoryUtils.getCategoriesCount(entityManager)).isEqualTo(CategoryUtils.CATEGORIES_COUNT)
     }
 
 }

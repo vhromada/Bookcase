@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <!--/*@thymesVar id="title" type="java.lang.String"*/-->
     <head th:fragment="head">
         <title>Bookcase</title>
@@ -8,21 +9,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link type="text/css" th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen"/>
         <link type="text/css" th:href="@{/css/bookcase.css}" rel="stylesheet" media="screen"/>
-        <script type="text/javascript" th:src="@{/js/jquery-3.2.1.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jquery-3.5.0.js}"></script>
         <script type="text/javascript" th:src="@{/js/bookcase.js}"></script>
     </head>
     <body>
-        <nav class="navbar navbar-default" th:fragment="menu">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" th:href="@{/}">Bookcase</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li><a th:href="@{/books/list}">Books</a>
-                    <li><a th:href="@{/authors/list}">Authors</a>
-                    <li><a th:href="@{/categories/list}">Categories</a>
-                </ul>
-            </div>
+        <nav class="navbar navbar-light bg-light navbar-expand-md" th:fragment="menu">
+            <a class="navbar-brand" th:href="@{/}">Bookcase</a>
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
+                    <a th:href="@{/books/list}" class="nav-link">Books</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
+                    <a th:href="@{/authors/list}" class="nav-link">Authors</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
+                    <a th:href="@{/categories/list}" class="nav-link">Categories</a>
+                </li>
+            </ul>
+            <form th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
+                <button type="submit" id="logout" name="logout" class="btn">Logout</button>
+            </form>
         </nav>
         <h2 th:text="${title}" th:fragment="title"></h2>
     </body>

@@ -19,7 +19,8 @@ fun cz.vhromada.bookcase.domain.Book.updated(): cz.vhromada.bookcase.domain.Book
             isbn = "ISBN",
             issueYear = BookUtils.ISSUE_YEAR,
             description = "Description",
-            note = "Note")
+            note = "Note",
+            audit = AuditUtils.newAudit())
 }
 
 /**
@@ -96,7 +97,8 @@ object BookUtils {
                 position = if (id == null) null else id - 1,
                 authors = listOf(AuthorUtils.newAuthorDomain(id)),
                 categories = listOf(CategoryUtils.newCategoryDomain(id)),
-                items = emptyList())
+                items = emptyList(),
+                audit = null)
                 .updated()
     }
 
@@ -159,7 +161,8 @@ object BookUtils {
                 position = index - 1,
                 authors = authors,
                 categories = categories,
-                items = ItemUtils.getItems(index))
+                items = ItemUtils.getItems(index),
+                audit = AuditUtils.getAudit())
     }
 
     /**

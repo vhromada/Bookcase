@@ -1,6 +1,7 @@
 package cz.vhromada.bookcase.repository
 
 import cz.vhromada.bookcase.CoreTestConfiguration
+import cz.vhromada.bookcase.utils.AuditUtils
 import cz.vhromada.bookcase.utils.AuthorUtils
 import cz.vhromada.bookcase.utils.BookUtils
 import cz.vhromada.bookcase.utils.CategoryUtils
@@ -61,6 +62,7 @@ class BookRepositoryIntegrationTest {
      * Test method for get book.
      */
     @Test
+    @Suppress("UsePropertyAccessSyntax")
     fun getBook() {
         for (i in 1 until BookUtils.BOOKS_COUNT) {
             val book = bookRepository.findById(i).orElse(null)
@@ -184,6 +186,18 @@ class BookRepositoryIntegrationTest {
             it.assertThat(BookUtils.getBooksCount(entityManager)).isEqualTo(0)
             it.assertThat(ItemUtils.getItemsCount(entityManager)).isEqualTo(0)
         }
+    }
+
+    /**
+     * Test method for get books for user.
+     */
+    @Test
+    fun findByAuditCreatedUser() {
+        val books = bookRepository.findByAuditCreatedUser(AuditUtils.getAudit().createdUser)
+
+        BookUtils.assertBooksDeepEquals(BookUtils.getBooks(), books)
+
+        assertThat(BookUtils.getBooksCount(entityManager)).isEqualTo(BookUtils.BOOKS_COUNT)
     }
 
 }

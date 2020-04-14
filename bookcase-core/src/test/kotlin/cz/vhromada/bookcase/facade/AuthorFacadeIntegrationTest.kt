@@ -1,8 +1,7 @@
-package cz.vhromada.bookcase.facade.impl
+package cz.vhromada.bookcase.facade
 
 import cz.vhromada.bookcase.CoreTestConfiguration
 import cz.vhromada.bookcase.entity.Author
-import cz.vhromada.bookcase.facade.AuthorFacade
 import cz.vhromada.bookcase.utils.AuthorUtils
 import cz.vhromada.bookcase.utils.BookUtils
 import cz.vhromada.common.facade.MovableParentFacade
@@ -21,12 +20,12 @@ import org.springframework.transaction.support.DefaultTransactionDefinition
 import javax.persistence.EntityManager
 
 /**
- * A class represents integration test for class [AuthorFacadeImpl].
+ * A class represents integration test for class [AuthorFacade].
  *
  * @author Vladimir Hromada
  */
 @ContextConfiguration(classes = [CoreTestConfiguration::class])
-class AuthorFacadeImplIntegrationTest : MovableParentFacadeIntegrationTest<Author, cz.vhromada.bookcase.domain.Author>() {
+class AuthorFacadeIntegrationTest : MovableParentFacadeIntegrationTest<Author, cz.vhromada.bookcase.domain.Author>() {
 
     /**
      * Instance of [EntityManager]

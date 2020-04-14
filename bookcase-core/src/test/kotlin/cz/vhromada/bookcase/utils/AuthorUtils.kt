@@ -11,7 +11,7 @@ import javax.persistence.EntityManager
  * @return updated author
  */
 fun cz.vhromada.bookcase.domain.Author.updated(): cz.vhromada.bookcase.domain.Author {
-    return copy(firstName = "First name", middleName = "Middle name", lastName = "Last name")
+    return copy(firstName = "First name", middleName = "Middle name", lastName = "Last name", audit = AuditUtils.newAudit())
 }
 
 /**
@@ -67,7 +67,7 @@ object AuthorUtils {
      * @return author
      */
     fun newAuthorDomain(id: Int?): cz.vhromada.bookcase.domain.Author {
-        return cz.vhromada.bookcase.domain.Author(id = id, firstName = "", middleName = "", lastName = "", position = if (id == null) null else id - 1)
+        return cz.vhromada.bookcase.domain.Author(id = id, firstName = "", middleName = "", lastName = "", position = if (id == null) null else id - 1, audit = null)
                 .updated()
     }
 
@@ -94,7 +94,8 @@ object AuthorUtils {
                 firstName = "$AUTHOR$index First Name",
                 middleName = if (index == 2) AUTHOR + "2 Middle Name" else "",
                 lastName = "$AUTHOR$index Last Name",
-                position = index - 1)
+                position = index - 1,
+                audit = AuditUtils.getAudit())
     }
 
     /**

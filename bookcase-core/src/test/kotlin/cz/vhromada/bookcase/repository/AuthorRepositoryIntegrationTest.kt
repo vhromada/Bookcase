@@ -1,6 +1,7 @@
 package cz.vhromada.bookcase.repository
 
 import cz.vhromada.bookcase.CoreTestConfiguration
+import cz.vhromada.bookcase.utils.AuditUtils
 import cz.vhromada.bookcase.utils.AuthorUtils
 import cz.vhromada.bookcase.utils.updated
 import org.assertj.core.api.Assertions.assertThat
@@ -55,6 +56,7 @@ class AuthorRepositoryIntegrationTest {
      * Test method for get author.
      */
     @Test
+    @Suppress("UsePropertyAccessSyntax")
     fun getAuthor() {
         for (i in 1 until AuthorUtils.AUTHORS_COUNT) {
             val author = authorRepository.findById(i).orElse(null)
@@ -133,6 +135,18 @@ class AuthorRepositoryIntegrationTest {
         authorRepository.deleteAll()
 
         assertThat(AuthorUtils.getAuthorsCount(entityManager)).isEqualTo(0)
+    }
+
+    /**
+     * Test method for get authors for user.
+     */
+    @Test
+    fun findByAuditCreatedUser() {
+        val authors = authorRepository.findByAuditCreatedUser(AuditUtils.getAudit().createdUser)
+
+        AuthorUtils.assertAuthorsDeepEquals(AuthorUtils.getAuthors(), authors)
+
+        assertThat(AuthorUtils.getAuthorsCount(entityManager)).isEqualTo(AuthorUtils.AUTHORS_COUNT)
     }
 
 }

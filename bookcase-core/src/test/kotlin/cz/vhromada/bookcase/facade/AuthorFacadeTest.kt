@@ -1,20 +1,21 @@
-package cz.vhromada.bookcase.facade.impl
+package cz.vhromada.bookcase.facade
 
 import com.nhaarman.mockitokotlin2.any
 import cz.vhromada.bookcase.entity.Author
+import cz.vhromada.bookcase.facade.impl.AuthorFacadeImpl
 import cz.vhromada.bookcase.utils.AuthorUtils
 import cz.vhromada.common.facade.MovableParentFacade
 import cz.vhromada.common.test.facade.MovableParentFacadeTest
 
 /**
- * A class represents test for class [AuthorFacadeImpl].
+ * A class represents test for class [AuthorFacade].
  *
  * @author Vladimir Hromada
  */
-class AuthorFacadeImplTest : MovableParentFacadeTest<Author, cz.vhromada.bookcase.domain.Author>() {
+class AuthorFacadeTest : MovableParentFacadeTest<Author, cz.vhromada.bookcase.domain.Author>() {
 
     override fun getFacade(): MovableParentFacade<Author> {
-        return AuthorFacadeImpl(service, mapper, validator)
+        return AuthorFacadeImpl(service, accountProvider, timeProvider, mapper, validator)
     }
 
     override fun newEntity(id: Int?): Author {

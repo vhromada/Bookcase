@@ -5,6 +5,8 @@ import cz.vhromada.bookcase.entity.Item
 import cz.vhromada.bookcase.facade.ItemFacade
 import cz.vhromada.common.facade.AbstractMovableChildFacade
 import cz.vhromada.common.mapper.Mapper
+import cz.vhromada.common.provider.AccountProvider
+import cz.vhromada.common.provider.TimeProvider
 import cz.vhromada.common.service.MovableService
 import cz.vhromada.common.utils.sorted
 import cz.vhromada.common.validator.MovableValidator
@@ -18,10 +20,13 @@ import org.springframework.stereotype.Component
 @Component("itemFacade")
 class ItemFacadeImpl(
         bookService: MovableService<cz.vhromada.bookcase.domain.Book>,
+        accountProvider: AccountProvider,
+        timeProvider: TimeProvider,
         mapper: Mapper<Item, cz.vhromada.bookcase.domain.Item>,
         bookValidator: MovableValidator<Book>,
         itemValidator: MovableValidator<Item>
-) : AbstractMovableChildFacade<Item, cz.vhromada.bookcase.domain.Item, Book, cz.vhromada.bookcase.domain.Book>(bookService, mapper, bookValidator, itemValidator), ItemFacade {
+) : AbstractMovableChildFacade<Item, cz.vhromada.bookcase.domain.Item, Book, cz.vhromada.bookcase.domain.Book>(bookService, accountProvider, timeProvider, mapper, bookValidator,
+        itemValidator), ItemFacade {
 
     override fun getDomainData(id: Int): cz.vhromada.bookcase.domain.Item? {
         val books = service.getAll()
@@ -131,6 +136,8 @@ class ItemFacadeImpl(
         val items = mutableListOf<cz.vhromada.bookcase.domain.Item>()
         for (itemDomain in book.items) {
             if (itemDomain == item) {
+                val audit = getAudit()
+                item.audit = itemDomain.audit!!.copy(updatedUser = audit.updatedUser, updatedTime = audit.updatedTime)
                 items.add(item)
             } else {
                 items.add(itemDomain)

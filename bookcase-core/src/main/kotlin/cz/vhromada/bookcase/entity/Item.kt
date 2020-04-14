@@ -2,8 +2,8 @@ package cz.vhromada.bookcase.entity
 
 import cz.vhromada.bookcase.common.Format
 import cz.vhromada.bookcase.domain.Item
-import cz.vhromada.common.Language
-import cz.vhromada.common.Movable
+import cz.vhromada.common.entity.Language
+import cz.vhromada.common.entity.Movable
 import java.util.Objects
 
 /**

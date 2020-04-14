@@ -2,7 +2,7 @@ package cz.vhromada.bookcase.utils
 
 import cz.vhromada.bookcase.common.Format
 import cz.vhromada.bookcase.entity.Item
-import cz.vhromada.common.Language
+import cz.vhromada.common.entity.Language
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.SoftAssertions.assertSoftly
 import javax.persistence.EntityManager
@@ -13,7 +13,7 @@ import javax.persistence.EntityManager
  * @return updated item
  */
 fun cz.vhromada.bookcase.domain.Item.updated(): cz.vhromada.bookcase.domain.Item {
-    return copy(languages = listOf(Language.CZ), format = Format.PDF, note = "Note")
+    return copy(languages = listOf(Language.CZ), format = Format.PDF, note = "Note", audit = AuditUtils.newAudit())
 }
 
 /**
@@ -49,7 +49,7 @@ object ItemUtils {
      * @return item
      */
     fun newItemDomain(id: Int?): cz.vhromada.bookcase.domain.Item {
-        return cz.vhromada.bookcase.domain.Item(id = id, languages = emptyList(), format = Format.TXT, note = null, position = if (id == null) null else id - 1)
+        return cz.vhromada.bookcase.domain.Item(id = id, languages = emptyList(), format = Format.TXT, note = null, position = if (id == null) null else id - 1, audit = null)
                 .updated()
     }
 
@@ -124,7 +124,8 @@ object ItemUtils {
                 languages = languages,
                 format = format,
                 note = if (itemIndex != 2) "Book $bookIndex Item $itemIndex Note" else "",
-                position = itemIndex - 1)
+                position = itemIndex - 1,
+                audit = AuditUtils.getAudit())
     }
 
     /**

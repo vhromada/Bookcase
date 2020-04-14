@@ -9,7 +9,7 @@ import cz.vhromada.bookcase.domain.Book
 import cz.vhromada.bookcase.entity.Item
 import cz.vhromada.bookcase.utils.BookUtils
 import cz.vhromada.bookcase.utils.ItemUtils
-import cz.vhromada.common.Language
+import cz.vhromada.common.entity.Language
 import cz.vhromada.common.result.Event
 import cz.vhromada.common.result.Severity
 import cz.vhromada.common.result.Status

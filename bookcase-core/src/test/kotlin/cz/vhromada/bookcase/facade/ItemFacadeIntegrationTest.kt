@@ -1,12 +1,11 @@
-package cz.vhromada.bookcase.facade.impl
+package cz.vhromada.bookcase.facade
 
 import cz.vhromada.bookcase.CoreTestConfiguration
 import cz.vhromada.bookcase.entity.Book
 import cz.vhromada.bookcase.entity.Item
-import cz.vhromada.bookcase.facade.ItemFacade
 import cz.vhromada.bookcase.utils.BookUtils
 import cz.vhromada.bookcase.utils.ItemUtils
-import cz.vhromada.common.Language
+import cz.vhromada.common.entity.Language
 import cz.vhromada.common.facade.MovableChildFacade
 import cz.vhromada.common.result.Event
 import cz.vhromada.common.result.Severity
@@ -20,12 +19,12 @@ import org.springframework.test.context.ContextConfiguration
 import javax.persistence.EntityManager
 
 /**
- * A class represents integration test for class [ItemFacadeImpl].
+ * A class represents integration test for class [ItemFacade].
  *
  * @author Vladimir Hromada
  */
 @ContextConfiguration(classes = [CoreTestConfiguration::class])
-class ItemFacadeImplIntegrationTest : MovableChildFacadeIntegrationTest<Item, cz.vhromada.bookcase.domain.Item, Book>() {
+class ItemFacadeIntegrationTest : MovableChildFacadeIntegrationTest<Item, cz.vhromada.bookcase.domain.Item, Book>() {
 
     /**
      * Instance of [EntityManager]
