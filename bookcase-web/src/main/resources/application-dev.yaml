@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driverClassName: org.h2.Driver
-    name: Catalog
+    name: Bookcase
     password: stargate stargate
     url: jdbc:h2:.\\db\\Bookcase;CIPHER=AES
     username: lavina

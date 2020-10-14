@@ -21,7 +21,7 @@
                 <tbody>
                     <th:block th:each="author : ${authors}">
                         <tr>
-                            <td th:text="${T(cz.vhromada.bookcase.web.converter.ConvertUtils).convertAuthor(author)}"></td>
+                            <td th:text="${T(com.github.vhromada.bookcase.web.converter.ConvertUtils).convertAuthor(author)}"></td>
                             <td><a th:href="@{|/authors/moveUp/${author.id}|}" th:if="${authors.indexOf(author) > 0}">Move up</a></td>
                             <td><a th:href="@{|/authors/moveDown/${author.id}|}" th:if="${authors.indexOf(author) < authors.size() - 1}">Move down</a></td>
                             <td><a th:href="@{|/authors/duplicate/${author.id}|}">Duplicate</a></td>

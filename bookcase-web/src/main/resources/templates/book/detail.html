@@ -35,11 +35,7 @@
                     </tr>
                     <tr>
                         <td class="title">Authors</td>
-                        <td th:text="${T(cz.vhromada.bookcase.web.converter.ConvertUtils).convertAuthors(book.authors)}"></td>
-                    </tr>
-                    <tr>
-                        <td class="title">Categories</td>
-                        <td th:text="${T(cz.vhromada.bookcase.web.converter.ConvertUtils).convertCategories(book.categories)}"></td>
+                        <td th:text="${T(com.github.vhromada.bookcase.web.converter.ConvertUtils).convertAuthors(book.authors)}"></td>
                     </tr>
                 </tbody>
             </table>

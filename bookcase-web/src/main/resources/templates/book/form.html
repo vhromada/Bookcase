@@ -2,9 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
     <!--/*@thymesVar id="action" type="java.lang.String"*/-->
-    <!--/*@thymesVar id="book" type="cz.vhromada.bookcase.web.fo.BookFO"*/-->
-    <!--/*@thymesVar id="authors" type="java.util.List<cz.vhromada.bookcase.entity.Author>"*/-->
-    <!--/*@thymesVar id="categories" type="java.util.List<cz.vhromada.bookcase.entity.Category>"*/-->
+    <!--/*@thymesVar id="book" type="com.github.vhromada.bookcase.web.fo.BookFO"*/-->
+    <!--/*@thymesVar id="authors" type="java.util.List<com.github.vhromada.bookcase.entity.Author>"*/-->
     <head th:replace="layout :: head"></head>
     <body>
         <th:block th:replace="layout :: menu"/>
@@ -62,18 +61,9 @@
                         <div class="col-md-10">
                             <select id="authors" name="authors" multiple="multiple" class="form-control" th:field="*{authors}">
                                 <option th:each="author : ${authors}" th:value="${author.id}"
-                                        th:text="${T(cz.vhromada.bookcase.web.converter.ConvertUtils).convertAuthor(author)}"></option>
+                                        th:text="${T(com.github.vhromada.bookcase.web.converter.ConvertUtils).convertAuthor(author)}"></option>
                             </select>
                             <span class="error" th:if="${#fields.hasErrors('authors')}" th:errors="*{authors}"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 col-form-label" for="categories">Categories</label>
-                        <div class="col-md-10">
-                            <select id="categories" name="categories" multiple="multiple" class="form-control" th:field="*{categories}">
-                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-                            </select>
-                            <span class="error" th:if="${#fields.hasErrors('categories')}" th:errors="*{categories}"></span>
                         </div>
                     </div>
                     <div class="form-group">
