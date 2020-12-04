@@ -3,17 +3,18 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 plugins {
-    val kotlinVersion = "1.3.72"
+    val kotlinVersion = "1.4.0"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
 }
 
-val commonVersion by extra("6.0.3")
+val projectParentVersion by extra("5.0.2")
+val commonVersion by extra("6.0.10")
 
 allprojects {
     group = "com.github.vhromada.bookcase"
-    version = "4.0.0"
+    version = "4.0.1"
 
     apply(plugin = "kotlin")
 

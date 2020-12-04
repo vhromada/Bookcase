@@ -1,13 +1,14 @@
 plugins {
-    id("org.springframework.boot") version "2.3.3.RELEASE"
+    id("org.springframework.boot") version "2.4.0"
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
 }
 
 dependencies {
+    val projectParentVersion: String by rootProject.extra
     val commonVersion: String by rootProject.extra
-    implementation(platform("com.github.vhromada.project:project-parent:5.0.0"))
+    implementation(platform("com.github.vhromada.project:project-parent:$projectParentVersion"))
     implementation(project(":bookcase-core"))
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.github.vhromada.common:common-account:$commonVersion")

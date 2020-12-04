@@ -17,6 +17,7 @@ object ConvertUtils {
      * @return converted languages
      */
     @JvmStatic
+    @Suppress("DuplicatedCode")
     fun convertLanguages(languages: List<Language?>): String {
         if (languages.isEmpty()) {
             return ""
@@ -72,6 +73,7 @@ object ConvertUtils {
      * @return converted roles
      */
     @JvmStatic
+    @Suppress("DuplicatedCode")
     fun convertRoles(roles: List<String>): String {
         if (roles.isEmpty()) {
             return ""
